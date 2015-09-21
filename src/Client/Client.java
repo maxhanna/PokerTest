@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 public class Client {
 	public static void main(String[] args) {
-		boolean inGame = false;
 		ArrayList<String> actions = new ArrayList<String>();
 		ArrayList<String> hand = new ArrayList<String>();
 		
@@ -20,13 +19,11 @@ public class Client {
 			String myMsg = keyboard.nextLine();
 			if (myMsg.equals("join"))
 			{
-				inGame = true;
 				actions.add("join");
 			}
 			else if (myMsg.equals("leave"))
 			{
 				actions.add("leave");
-				inGame = false;
 			}
 			else if (myMsg.equals("quit"))
 			{
