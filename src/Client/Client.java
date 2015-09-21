@@ -1,9 +1,6 @@
 package Client;
-import java.net.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-/* The java.io package contains the basics needed for IO operations. */
-import java.io.*;
 import java.util.Scanner;
 /** The SocketClient class is a simple example of a TCP/IP Socket Client. */
 
@@ -16,13 +13,25 @@ public class Client {
 		
 		while(true)
 		{
-			Scanner keyboard = new Scanner(System.in);
+
+			Scanner keyboard;
+			keyboard = new Scanner(System.in);
 			System.out.println("Join a game room? (type join)");
 			String myMsg = keyboard.next();
 			if (myMsg.equals("join"))
 			{
 				inGame = true;
 				actions.add("join");
+			}
+			else if (myMsg.equals("leave"))
+			{
+				actions.add("leave");
+				inGame = false;
+			}
+			else if (myMsg.equals("quit"))
+			{
+				actions.add("leave");
+				System.exit(0);
 			}
 			ClientMessage msg = new ClientMessage();
 			
@@ -44,6 +53,7 @@ public class Client {
 			    	 System.out.println(hand.get(i));
 			     }
 			}
+			keyboard.close();
 		}
 	}
 	
