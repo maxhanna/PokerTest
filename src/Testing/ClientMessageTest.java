@@ -13,6 +13,8 @@ public class ClientMessageTest {
 
 		ClientMessage clientTester = new ClientMessage();
 		String contents;
+		
+		//testing server communication and return types
 		contents = clientTester.sendMessage("test");
 		System.out.println(contents);
 		assertTrue(contents.equals("test"));
@@ -21,6 +23,17 @@ public class ClientMessageTest {
 		contents = clientTester.sendMessage("test test");
 		System.out.println(contents);
 		assertTrue(contents.equals("test test"));
+
+		clientTester = new ClientMessage();
+		contents = clientTester.sendMessage("test\\/test");
+		System.out.println(contents);
+		assertTrue(contents.equals("test\\/test"));
+
+		// testing some of the more specific server commands
+		clientTester = new ClientMessage();
+		contents = clientTester.sendMessage("join");
+		System.out.println(contents);
+		assertTrue(contents.contains("take card"));
 	}
 
 }
