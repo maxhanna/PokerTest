@@ -118,7 +118,7 @@ public class Server {
 					}
 					catch (Exception e){}
 					TimeStamp = new java.util.Date().toString();
-					String returnCode = process.toString() + " : Server did not respond. "+ TimeStamp + (char) 13;
+					String returnCode = process.toString() + (char) 13;
 					BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
 					OutputStreamWriter osw = new OutputStreamWriter(os, "US-ASCII");
 					osw.write(returnCode);

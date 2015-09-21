@@ -12,8 +12,15 @@ public class ClientMessageTest {
 	public void test() {
 
 		ClientMessage clientTester = new ClientMessage();
-		String contents = clientTester.sendMessage("test");
-		assert(contents.equals("test"));
+		String contents;
+		contents = clientTester.sendMessage("test");
+		System.out.println(contents);
+		assertTrue(contents.equals("test"));
+
+		clientTester = new ClientMessage();
+		contents = clientTester.sendMessage("test test");
+		System.out.println(contents);
+		assertTrue(contents.equals("test test"));
 	}
 
 }

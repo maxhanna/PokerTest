@@ -17,7 +17,7 @@ public class Client {
 			Scanner keyboard;
 			keyboard = new Scanner(System.in);
 			System.out.println("Join a game room? (type join)");
-			String myMsg = keyboard.next();
+			String myMsg = keyboard.nextLine();
 			if (myMsg.equals("join"))
 			{
 				inGame = true;
