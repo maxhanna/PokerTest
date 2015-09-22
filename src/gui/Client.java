@@ -162,11 +162,11 @@ public class Client  {
 
 		int portNumber = 28442;
 		String serverAddress = "localhost";
-
+		
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Enter a Username");
-
-
+		
+		
 		String userName  = keyboard.nextLine();
 
 		// depending of the number of arguments provided we fall through
@@ -182,6 +182,7 @@ public class Client  {
 			catch(Exception e) {
 				System.out.println("Invalid port number.");
 				System.out.println("Usage is: > java Client [username] [portNumber] [serverAddress]");
+				keyboard.close();
 				return;
 			}
 			// > javac Client username
@@ -193,14 +194,17 @@ public class Client  {
 			// invalid number of arguments
 		default:
 			System.out.println("Usage is: > java Client [player number] [portNumber] {serverAddress]");
+			keyboard.close();
 			return;
 		}
 		// create the Client object
 		Client client = new Client(serverAddress, portNumber, userName, model);
 		// test if we can start the connection to the Server
 		// if it failed nothing we can do
-		if(!client.start())
+		if(!client.start()) {
+			keyboard.close();
 			return;
+		}
 
 		// wait for messages from user
 		//Scanner scan = new Scanner(System.in);
@@ -210,32 +214,32 @@ public class Client  {
 			// read message from user
 
 
-			Scanner user_input = new Scanner( System.in );
 			System.out.print("Enter your message: ");
-			msg = user_input.next( );
-
+			msg = keyboard.next( );
+			
 			System.out.println("sending message to server");
 			// logout if message is LOGOUT
 			if(msg.equalsIgnoreCase("LOGOUT")) {
-				client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", userName));
-				// break to do the disconnect
-				break;
-			}
-			// message WhoIsIn
-			else if(msg.equalsIgnoreCase("WHOISIN")) {
-				client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", userName));				
-			}
-
-			else {				// default to ordinary message
-
-				client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, userName));				
-				System.out.println("sending ordinary message to server");
-
-			}
-
+					client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", userName));
+					// break to do the disconnect
+					break;
+				}
+				// message WhoIsIn
+				else if(msg.equalsIgnoreCase("WHOISIN")) {
+					client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", userName));				
+				}
+	
+				else {				// default to ordinary message
+	
+					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, userName));				
+					System.out.println("sending ordinary message to server");
+	
+				}
+			
 		}
 		// done disconnect
 		client.disconnect();
+		keyboard.close();
 	}
 
 	/*
@@ -256,7 +260,7 @@ public class Client  {
 						System.out.println(msg);
 
 					}
-
+					
 					String phrase = msg;
 					String delims = "[,]+";
 					String[] tokens = phrase.split(delims);
