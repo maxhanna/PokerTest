@@ -232,12 +232,21 @@ public class Client  {
 				else {				// default to ordinary message
 	
 					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
-					System.out.println("sending ordinary message to server");
 					
 					if (msg.contains("return"))
 					{
 						String cards = msg.replace("return ", "");
+
+						String delims2 = "[,]+";
+						String[] hand = cards.split(delims2);
+						for (String card : hand)
+							model.hand.remove(card);
+						System.out.println("Returning cards server");
+						
 					}
+					
+					System.out.println("Sending ordinary message to server");
+					
 	
 				}
 			
@@ -313,7 +322,10 @@ public class Client  {
 								System.out.println("Current hand: ");
 								for(String s : model.hand)
 								{
-									System.out.print(s + ", ");
+									if (!s.equals(model.hand.get(model.hand.size()-1)))
+										System.out.print(s + ", ");
+									else 
+										System.out.print(s);
 								}
 								System.out.print("\n");
 							}
