@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -137,6 +138,378 @@ public class Client  {
 
 
 	}
+	public boolean checkFourOfAKind(String hand)
+	{
+		String findStr = "Ace";
+		int count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "King";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "Queen";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "Jack";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "10";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "9";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "8";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "7";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "6";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "5";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "4";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "3";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+
+		findStr = "2";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>3)
+			return true;
+		
+		return false;
+	}
+
+	public boolean checkThreeOfAKind(String hand)
+	{
+		String findStr = "Ace";
+		int count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "King";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "Queen";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "Jack";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "10";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "9";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "8";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "7";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "6";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "5";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "4";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "3";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+
+		findStr = "2";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>2)
+			return true;
+		
+		return false;
+	}
+	public boolean checkTwoOfAKind(String hand)
+	{
+		String findStr = "Ace";
+		int count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "King";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "Queen";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "Jack";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "10";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "9";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "8";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "7";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "6";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "5";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "4";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "3";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+
+		findStr = "2";
+		count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>1)
+			return true;
+		
+		return false;
+	}
+	public int checkHigh(String hand)
+	{
+		String findStr = "Ace";
+		int count = 0;
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 14;
+
+		findStr = "King";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 13;
+		
+		findStr = "Queen";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 12;
+		
+		findStr = "Jack";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 11;
+		
+		findStr = "10";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 10;
+		
+		findStr = "9";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 9;
+		
+		findStr = "8";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 8;
+		
+		findStr = "7";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 7;
+		
+		findStr = "6";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 6;
+		
+		findStr = "5";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 5;
+		
+		findStr = "4";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 4;
+		
+		findStr = "3";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 3;
+		
+		findStr = "2";
+		count = hand.split(findStr, -1).length-1;
+		if (count>0)
+			return 2;
+		
+		return 0;
+	}
+	public String calculateWinner()
+	{
+
+		String winningHand = "";
+		if (model.userHands.keySet().size()==0)
+			return "No Winner";
+		else{
+			String victor;
+			int victorPoints = 0;
+			int userPoints = 0;
+			victor = (String) model.userHands.keySet().toArray()[0];
+			for (String user : model.userHands.keySet())
+			{
+				//14 max for ace high
+				userPoints = checkHigh(model.userHands.get(user));
+				//15 points for two of a kind
+				if (checkTwoOfAKind(model.userHands.get(user)))
+					userPoints = 15;
+				//16 points for three of a kind
+				if (checkThreeOfAKind(model.userHands.get(user)))
+					userPoints = 16;
+				//17 points for four of a kind
+				if (checkFourOfAKind(model.userHands.get(user)))
+					userPoints = 17;
+				
+				if (userPoints > victorPoints){
+					victor = user;
+					victorPoints = userPoints;
+					if (victorPoints > 15)
+					{
+						if (checkHigh(model.userHands.get(user)) == 14)
+							winningHand = "Ace high";
+						else if (checkHigh(model.userHands.get(user)) == 13)
+							winningHand = "King high";
+						else if (checkHigh(model.userHands.get(user)) == 12)
+							winningHand = "Queen high";
+						else if (checkHigh(model.userHands.get(user)) == 11)
+							winningHand = "Jack high";
+						else {
+							winningHand = checkHigh(model.userHands.get(user))+" high";
+						}
+						
+					}
+					if (checkTwoOfAKind(model.userHands.get(user)))
+						winningHand = "Two of a kind";
+					if (checkThreeOfAKind(model.userHands.get(user)))
+						winningHand = "Three of a kind";
+					if (checkFourOfAKind(model.userHands.get(user)))
+						winningHand = "Four of a kind";
+				}
+			}
+			return victor + " with " + winningHand;
+		}
+		
+	}
 	/*
 	 * To start the Client in console mode use one of the following command
 	 * > java Client
@@ -236,12 +609,15 @@ public class Client  {
 					if (msg.contains("return"))
 					{
 						String cards = msg.replace("return ", "");
+						cards = cards.replace(", ", ",");
 
 						String delims2 = "[,]+";
 						String[] hand = cards.split(delims2);
-						for (String card : hand)
-							model.hand.remove(card);
-						System.out.println("Returning cards server");
+						for (String card : hand){
+							if (model.hand.remove(card))
+								System.out.println("Removed "+ card + " from hand.");
+						}
+						System.out.println("Returning cards to server");
 						
 					}
 					
@@ -320,22 +696,35 @@ public class Client  {
 								}
 
 								System.out.println("Current hand: ");
+								String hand = "";
 								for(String s : model.hand)
 								{
 									if (!s.equals(model.hand.get(model.hand.size()-1)))
-										System.out.print(s + ", ");
+										hand = hand + s + ",";
 									else 
-										System.out.print(s);
+										hand = hand + s;
 								}
-								System.out.print("\n");
+								System.out.println(hand);
+								sendMessage(new ChatMessage(ChatMessage.MESSAGE, "Current Hand " + hand, model.userNames.get(0)));				
+								
 							}
 						}
-						//A new player has connected.
-						
-						else if (tokens[i+1].contains("logout"))
+						else if (tokens[i].contains("Calculate"))
 						{
-
-
+							String winner = "";
+							System.out.println("Winner : ");
+							winner = calculateWinner();
+							System.out.println(winner);
+							model.userHands = new HashMap<String,String>();
+						}
+						else if (tokens[i].contains("Current"))
+						{
+							String hand = msg1.getMessage();
+							hand = hand.replace("Current Hand ", "");
+							System.out.println("Received " + msg1.getUserName() + "'s hand.");
+							model.userHands.put(msg1.getUserName(), hand);
+							if (model.cheatMode)
+								System.out.println(msg1.getUserName() + "'s hand:\n"+hand);
 						}
 
 						else if (tokens[i+1].contains("disconnected"))

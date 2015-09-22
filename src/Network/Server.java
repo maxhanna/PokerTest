@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.HashMap;
 
 import models.ChatMessage;
 
@@ -21,6 +22,10 @@ public class Server {
 	ArrayList<String> deck = new ArrayList<String>();
 	int numUsers = 0;
 	int inGame = 0;
+	int plays = 0;
+	ArrayList<String> usersPlayed = new ArrayList<String>();
+	HashMap<String, String> userHands = new HashMap<String, String>();
+
 
 
 	// to display time
@@ -212,6 +217,7 @@ public class Server {
 				username = (String) sInput.readObject();
 				display(username + " just connected.\n");
 				users.add(username);
+				numUsers++;
 			}
 			catch (IOException e) {
 				display("Exception creating new Input/output Streams: " + e);
@@ -314,7 +320,7 @@ public class Server {
 			}
 			return cards;
 		}
-		
+
 		public String serveCards(ArrayList<String> deck){
 			if (deck.size() > 4)
 			{
@@ -331,6 +337,7 @@ public class Server {
 			else
 				return "";
 		}
+	
 
 		// what will run forever
 		public void run() {
@@ -386,7 +393,7 @@ public class Server {
 					break;
 				case ChatMessage.WHOISIN:
 					for (int i = 0; i < users.size(); i++) {
-						broadcast(new ChatMessage(ChatMessage.MESSAGE, users.get(i) + ", is online\n", ""));
+						broadcast(new ChatMessage(ChatMessage.MESSAGE, users.get(i) + ", is online\n", users.get(i)));
 					}
 					break;
 				case ChatMessage.MESSAGE:
@@ -399,28 +406,62 @@ public class Server {
 						}
 						String cards = serveCards(deck);
 						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
-								" takes " + cards, cm.getUserName()));
+								" takes " + cards, "Server"));
+
+					}
+					else if (cm.getMessage().contains("Current Hand"))
+					{
+						if (usersPlayed.contains(cm.getUserName())){
+							System.out.println("Player has already played.");
+						}
+						else{
+							usersPlayed.add(cm.getUserName());
+							System.out.println(cm.getUserName() + "'s Final hand received.");
+							broadcast(cm);	
+							shuffleDeck(deck);
+							plays++;
+							if (numUsers == plays)
+							{
+								inGame = 0;
+								plays=0;
+								System.out.println("Calculating winner.");
+								broadcast(new ChatMessage(ChatMessage.MESSAGE, "Calculate winner", "Server"));
+								usersPlayed = new ArrayList<String>();
+								
+								
+							}
+						
+
+						}
 
 					}
 					else if (cm.getMessage().contains("return"))
 					{
-						String returned = cm.getMessage().replace("return ", "");
-						System.out.println("user is returning: " + returned);
-						
-						if(returnCards(returned, deck))
-							System.out.println("Cards successfully returned to deck.");
+						if (!usersPlayed.contains(cm.getUserName()))
+						{
+							String returned = cm.getMessage().replace("return ", "");
+							System.out.println("user is returning: " + returned);
+							returned = returned.replace(", ", ",");
+							if(returnCards(returned, deck))
+								System.out.println("Cards successfully returned to deck.");
+							else
+								System.out.println("Cards were not successfully returned to deck.");
+
+							int count = cm.getMessage().substring(cm.getMessage().indexOf("return "), cm.getMessage().length()).split(",", -1).length-1;
+
+							String cards = takeCards(count+1,deck);
+
+							System.out.println("Server delt : " + cards);
+							broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
+									" gets " + cards, cm.getUserName()));
+						}
 						else
-							System.out.println("Cards were not successfully returned to deck.");
+						{
+							broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
+									" cannot play, waiting for other players to play. ", cm.getUserName()));
+						}
+
 						
-						int count = cm.getMessage().substring(cm.getMessage().indexOf("return "), cm.getMessage().length()).split(",", -1).length-1;
-						
-						String cards = takeCards(count+1,deck);
-						
-						System.out.println("Server delt : " + cards);
-						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
-								" gets " + cards, cm.getUserName()));
-						
-					
 					}
 					display(cm.getMessage());
 					break;
