@@ -17,7 +17,10 @@ public class PokerVariables implements Serializable {
 	public int day;
 
 	public PokerVariables() {
-
+		userNames = new ArrayList<String>();
+		updatedUsers = new ArrayList<String>();
+		actions = new ArrayList<String>();
+		hand = new ArrayList<String>();
 		phase = 1;
 		day = 1;
 

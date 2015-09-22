@@ -18,7 +18,9 @@ public class Server {
 	int finished = 0;
 	String scores[] = new String[6];
 	ArrayList<String> users = new ArrayList<String>();
+	ArrayList<String> deck = new ArrayList<String>();
 	int numUsers = 0;
+	int inGame = 0;
 
 
 	// to display time
@@ -109,9 +111,9 @@ public class Server {
 	 */
 	private void display(String mview) {
 		String time = sdf.format(new Date()) + " " + mview;
-		
+
 		System.out.println(time);
-		
+
 
 	}
 	/*
@@ -221,6 +223,88 @@ public class Server {
 			}
 			date = new Date().toString() + "\n";
 		}
+		public void createDeck(ArrayList<String> deck){
+			for (int suit = 0; suit < 4; suit ++){
+				for (int num = 0; num < 13; num ++)
+				{
+					if (num == 1)
+					{
+						if (suit == 1)
+							deck.add("Ace" + " of clubs");
+						else if (suit == 2)
+							deck.add("Ace" + " of spades");
+						else if (suit == 3)
+							deck.add("Ace" + " of diamonds");
+						else if (suit == 4)
+							deck.add("Ace" + " of hearts");
+					}
+					else if (num == 11)
+					{
+						if (suit == 1)
+							deck.add("Jack" + " of clubs");
+						else if (suit == 2)
+							deck.add("Jack" + " of spades");
+						else if (suit == 3)
+							deck.add("Jack" + " of diamonds");
+						else if (suit == 4)
+							deck.add("Jack" + " of hearts");
+					}
+					else if (num == 12)
+					{
+						if (suit == 1)
+							deck.add("Queen" + " of clubs");
+						else if (suit == 2)
+							deck.add("Queen" + " of spades");
+						else if (suit == 3)
+							deck.add("Queen" + " of diamonds");
+						else if (suit == 4)
+							deck.add("Queen" + " of hearts");
+					}
+					else if (num == 13)
+					{
+						if (suit == 1)
+							deck.add("King" + " of clubs");
+						else if (suit == 2)
+							deck.add("King" + " of spades");
+						else if (suit == 3)
+							deck.add("King" + " of diamonds");
+						else if (suit == 4)
+							deck.add("King" + " of hearts");
+					}
+					else
+					{
+						if (suit == 1)
+							deck.add( num + " of clubs");
+						else if (suit == 2)
+							deck.add( num + " of spades");
+						else if (suit == 3)
+							deck.add( num + " of diamonds");
+						else if (suit == 4)
+							deck.add( num + " of hearts");
+					}
+
+				}
+			}
+		}
+		public void shuffleDeck(ArrayList<String> deck){
+			Collections.shuffle(deck);
+		}
+		public String serveCards(ArrayList<String> deck){
+			if (deck.size() > 4)
+			{
+				String cards = ("" + deck.get(deck.size()-5) + "," + deck.get(deck.size()-1) + "," 
+						+ deck.get(deck.size()-2) + ","+ deck.get(deck.size()-3) + ","
+						+ deck.get(deck.size()-4));
+				deck.remove(deck.size()-1);
+				deck.remove(deck.size()-1);
+				deck.remove(deck.size()-1);
+				deck.remove(deck.size()-1);
+				deck.remove(deck.size()-1);
+				return cards;
+			}
+			else
+				return "";
+		}
 
 		// what will run forever
 		public void run() {
@@ -246,7 +330,7 @@ public class Server {
 								break;
 							}
 						}
-						
+
 					}
 					break;				
 				}
@@ -262,7 +346,7 @@ public class Server {
 				// Switch on the type of message receive
 				switch(cm.getType()) {
 				case ChatMessage.LOGOUT:
-					
+
 					broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserName() + ",logout", cm.getUserName()));
 					for(String user : users)
 					{
@@ -280,12 +364,24 @@ public class Server {
 					}
 					break;
 				case ChatMessage.MESSAGE:
-					for (int i = 0; i < users.size(); i++) {
-						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getMessage(), cm.getUserName()));
+					if (cm.getMessage().equals("serve"))
+					{
+						if (inGame == 0){
+							inGame = 1;
+							createDeck(deck);
+							shuffleDeck(deck);
+						}
+						String cards = serveCards(deck);
+						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
+								" takes " + cards, cm.getUserName()));
+
+
+
 					}
+					
 					display(cm.getMessage());
 					break;
-			
+
 				case ChatMessage.VICTORY:
 					display(username + ", won\n");
 					//broadcast(scores[0]);
@@ -306,6 +402,7 @@ public class Server {
 					break;
 
 				}
+				cm = null;
 			}
 			// remove myself from the arrayList containing the list of the
 			// connected Clients

@@ -22,7 +22,7 @@ public class Client  {
 
 
 	// the server, the port and the username
-	private String server, username;
+	private String server;
 	private int port;
 	/*
 	 *  Constructor called by console mode
@@ -47,8 +47,8 @@ public class Client  {
 	public Client(String server, int port, String username, PokerVariables model) {
 		this.server = server;
 		this.port = port;
-		this.username = username;
 		this.model = model;
+		this.model.userNames.set(0, username);
 	}
 
 	/*
@@ -85,7 +85,7 @@ public class Client  {
 		// will send as a String. All other messages will be ChatMessage objects
 		try
 		{
-			sOutput.writeObject(username);
+			sOutput.writeObject(model.userNames.get(0));
 		}
 		catch (IOException eIO) {
 			display("Exception doing login : " + eIO);
@@ -166,8 +166,9 @@ public class Client  {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Enter a Username");
 		
-		
+
 		String userName  = keyboard.nextLine();
+		model.userNames.add(userName);
 
 		// depending of the number of arguments provided we fall through
 		switch(args.length) {
@@ -198,7 +199,7 @@ public class Client  {
 			return;
 		}
 		// create the Client object
-		Client client = new Client(serverAddress, portNumber, userName, model);
+		Client client = new Client(serverAddress, portNumber, model.userNames.get(0), model);
 		// test if we can start the connection to the Server
 		// if it failed nothing we can do
 		if(!client.start()) {
@@ -214,24 +215,24 @@ public class Client  {
 			// read message from user
 
 
-			System.out.print("Enter your message: ");
+			System.out.print(": ");
 			msg = keyboard.next( );
 			
 			System.out.println("sending message to server");
 			// logout if message is LOGOUT
 			if(msg.equalsIgnoreCase("LOGOUT")) {
-					client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", userName));
+					client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", model.userNames.get(0)));
 					// break to do the disconnect
 					break;
 				}
 				// message WhoIsIn
 				else if(msg.equalsIgnoreCase("WHOISIN")) {
-					client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", userName));				
+					client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", model.userNames.get(0)));				
 				}
 	
 				else {				// default to ordinary message
 	
-					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, userName));				
+					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
 					System.out.println("sending ordinary message to server");
 	
 				}
@@ -257,22 +258,42 @@ public class Client  {
 					if (msg1.getMessage().getClass().equals(String.class))
 					{
 						msg = (String)msg1.getMessage();
-						System.out.println(msg);
+						//System.out.println(msg);
 
 					}
 					
 					String phrase = msg;
-					String delims = "[,]+";
+					String delims = "[ ]+";
 					String[] tokens = phrase.split(delims);
 
 					for (int i = 0; i<tokens.length-1; i++)
 					{
+						if (tokens[i].contains(model.userNames.get(0)))
+						{
+							if (tokens[i+1].contains("takes"))
+							{	
+								System.out.println("youre taking cards");
+								String cards = msg;
+								cards = cards.substring(msg.indexOf("takes "), msg.length()-1);
 
-						//A new player has connected.
-						if (tokens[i+1].contains("is online"))
-						{	
-
+								String delims2 = "[,]+";
+								String[] hand = cards.split(delims2);
+								for(String s : model.hand)
+								{
+									model.hand.remove(s);
+								}
+								System.out.println("your current hand:");
+								for(String s : hand)
+								{
+									model.hand.add(s);
+									System.out.println(s);
+								}
+								
+								
+							}
 						}
+						//A new player has connected.
+						
 						else if (tokens[i+1].contains("logout"))
 						{
 
@@ -284,7 +305,7 @@ public class Client  {
 
 						}
 						else {
-							System.out.println(msg);
+							//System.out.println(msg);
 						}
 					}
 
