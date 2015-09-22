@@ -162,13 +162,12 @@ public class Client  {
 
 		int portNumber = 28442;
 		String serverAddress = "localhost";
-		
+
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Enter a Username");
-		
-		
+
+
 		String userName  = keyboard.nextLine();
-		keyboard.close();
 
 		// depending of the number of arguments provided we fall through
 		switch(args.length) {
@@ -187,7 +186,7 @@ public class Client  {
 			}
 			// > javac Client username
 		case 1: 
-			userName = args[0];
+			model.userNames.set(0, args[0]);
 			// > java Client
 		case 0:
 			break;
@@ -209,32 +208,28 @@ public class Client  {
 		// loop forever for message from the user
 		while(true) {
 			// read message from user
+
+
+			Scanner user_input = new Scanner( System.in );
+			System.out.print("Enter your message: ");
+			msg = user_input.next( );
+
+			System.out.println("sending message to server");
 			// logout if message is LOGOUT
 			if(msg.equalsIgnoreCase("LOGOUT")) {
-				client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", ""));
+				client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", userName));
 				// break to do the disconnect
 				break;
 			}
 			// message WhoIsIn
 			else if(msg.equalsIgnoreCase("WHOISIN")) {
-				client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", ""));				
+				client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", userName));				
 			}
 
 			else {				// default to ordinary message
 
-				if (model.start == 1)
-				{
-					model.day=1;
-					model.phase=0;
-					client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, userName, userName));
-					model.start = 0;
-				}
-				if (model.getPlay() == 1)
-				{
-					model.play = 0;
-					client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, userName, userName));
-
-				}
+				client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, userName));				
+				System.out.println("sending ordinary message to server");
 
 			}
 
@@ -261,7 +256,7 @@ public class Client  {
 						System.out.println(msg);
 
 					}
-					
+
 					String phrase = msg;
 					String delims = "[,]+";
 					String[] tokens = phrase.split(delims);
@@ -283,6 +278,9 @@ public class Client  {
 						else if (tokens[i+1].contains("disconnected"))
 						{
 
+						}
+						else {
+							System.out.println(msg);
 						}
 					}
 

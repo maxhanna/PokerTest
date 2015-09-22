@@ -19,9 +19,7 @@ public class Server {
 	String scores[] = new String[6];
 	ArrayList<String> users = new ArrayList<String>();
 	int numUsers = 0;
-	int numMoves = 0;
-	int numCombatMoves = 0;
-	HashMap<String, Integer> combatMoves = new HashMap<String, Integer>();
+
 
 	// to display time
 	private SimpleDateFormat sdf;
@@ -211,6 +209,7 @@ public class Server {
 				// read the username
 				username = (String) sInput.readObject();
 				display(username + " just connected.\n");
+				users.add(username);
 			}
 			catch (IOException e) {
 				display("Exception creating new Input/output Streams: " + e);
@@ -233,14 +232,14 @@ public class Server {
 					cm = (ChatMessage) sInput.readObject();
 				}
 				catch (IOException e) {
-					if (cm.getUserClass() != null && !cm.getUserClass().equals(""))
+					if (cm.getUserName() != null && !cm.getUserName().equals(""))
 					{
-						display(cm.getUserClass() + " Exception reading Streams: " + e);
-						broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserClass() + ",logout", cm.getUserClass()));
+						display(cm.getUserName() + " Exception reading Streams: " + e);
+						broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserName() + ",logout", cm.getUserName()));
 
 						for(String user : users)
 						{
-							if (user.contains(cm.getUserClass()))
+							if (user.contains(cm.getUserName()))
 							{
 								users.remove(user);
 								numUsers--;
@@ -264,10 +263,10 @@ public class Server {
 				switch(cm.getType()) {
 				case ChatMessage.LOGOUT:
 					
-					broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserClass() + ",logout", cm.getUserClass()));
+					broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserName() + ",logout", cm.getUserName()));
 					for(String user : users)
 					{
-						if (user.contains(cm.getUserClass()))
+						if (user.contains(cm.getUserName()))
 						{
 							users.remove(user);
 							numUsers--;
@@ -279,6 +278,12 @@ public class Server {
 					for (int i = 0; i < users.size(); i++) {
 						broadcast(new ChatMessage(ChatMessage.MESSAGE, users.get(i) + ", is online\n", ""));
 					}
+					break;
+				case ChatMessage.MESSAGE:
+					for (int i = 0; i < users.size(); i++) {
+						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getMessage(), cm.getUserName()));
+					}
+					display(cm.getMessage());
 					break;
 			
 				case ChatMessage.VICTORY:

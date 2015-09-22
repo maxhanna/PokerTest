@@ -12,23 +12,23 @@ public class ChatMessage implements Serializable
 	public static final int NULL = -1;
 	public int type;
 	public String message;
-	public String userClass;
+	public String userName;
 	
-	public ChatMessage(int type, String message, String userClass)
+	public ChatMessage(int type, String message, String userName)
 	{
 		this.type = type;
 		this.message = message;
-		this.userClass = userClass;
+		this.userName = userName;
 	}
 	public String toString()
 	{
-		return userClass + "'s message";
+		return userName + "'s message";
 	}
 	public int getType()
 	{
 		return this.type;
 	}
-	public Object getMessage()
+	public String getMessage()
 	{
 		return this.message;
 	}
@@ -37,13 +37,13 @@ public class ChatMessage implements Serializable
 		this.message = msg;;
 	}
 
-	public String getUserClass()
+	public String getUserName()
 	{
-		return this.userClass;
+		return this.userName;
 	}
-	public void setUserClass(String msg)
+	public void setUserName(String msg)
 	{
-		this.userClass = msg;;
+		this.userName = msg;;
 	}
 
 }
