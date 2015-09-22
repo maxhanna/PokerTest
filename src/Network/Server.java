@@ -1,135 +1,351 @@
 package Network;
-import java.net.*;
+
 import java.io.*;
+import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
+import models.ChatMessage;
+
+/*
+ * The server that can be run both as a console application or a GUI
+ */
 public class Server {
+	// a unique ID for each connection
+	private static int uniqueId;
+	// an ArrayList to keep the list of the Client
+	private ArrayList<ClientThread> al;
+	int finished = 0;
+	String scores[] = new String[6];
+	ArrayList<String> users = new ArrayList<String>();
+	int numUsers = 0;
+	int numMoves = 0;
+	int numCombatMoves = 0;
+	HashMap<String, Integer> combatMoves = new HashMap<String, Integer>();
 
-	static ServerSocket socket1;
-	protected final static int port = 19999;
-	static Socket connection;
+	// to display time
+	private SimpleDateFormat sdf;
+	// the port number to listen for connection
+	private int port;
+	// the boolean that will be turned of to stop the server
+	private boolean keepGoing;
 
-	static boolean first;
-	static StringBuffer process;
-	static String TimeStamp;
 
-	public static void main(String[] args) {
-		//construct a deck
-		Deque<String[]> deck = new ArrayDeque<String[]>();
-		for (int suit = 0; suit < 4; suit++) {
-			for(int i = 0; i<13; i++)
+	/*
+	 *  server constructor that receive the port to listen to for connection as parameter
+	 *  in console
+	 */
+	public Server(int port) {
+		// GUI or not
+		// the port
+		this.port = port;
+		// to display hh:mm:ss
+		sdf = new SimpleDateFormat("HH:mm:ss");
+		// ArrayList for the Client list
+		al = new ArrayList<ClientThread>();
+	}
+
+	public void start() {
+		keepGoing = true;
+		/* create socket server and wait for connection requests */
+		try 
+		{
+			// the socket used by the server
+			ServerSocket serverSocket = new ServerSocket(port);
+
+			// infinite loop to wait for connections
+			while(keepGoing) 
 			{
-				if (suit == 0)
-				{
-					if (i == 11)
-						deck.add(new String[] {"Jack","hearts"});
-					else if (i == 12)
-						deck.add(new String[] {"Queen","hearts"});
-					else if (i == 13)
-						deck.add(new String[] {"King","hearts"});
-					else if (i == 0)
-						deck.add(new String[] {"Ace","hearts"});
-					else
-						deck.add(new String[] {i+"","hearts"});
-				}
-				else if (suit == 1)
-				{
+				// format message saying we are waiting
+				display("Server waiting for Clients on port " + port + ".");
 
-					if (i == 11)
-						deck.add(new String[] {"Jack","diamonds"});
-					else if (i == 12)
-						deck.add(new String[] {"Queen","diamonds"});
-					else if (i == 13)
-						deck.add(new String[] {"King","diamonds"});
-					else if (i == 0)
-						deck.add(new String[] {"Ace","diamonds"});
-					else
-						deck.add(new String[] {i+"","diamonds"});
-				}
-				else if (suit == 2)
-				{
-					if (i == 11)
-						deck.add(new String[] {"Jack","spades"});
-					else if (i == 12)
-						deck.add(new String[] {"Queen","spades"});
-					else if (i == 13)
-						deck.add(new String[] {"King","spades"});
-					else if (i == 0)
-						deck.add(new String[] {"Ace","spades"});
-					else
-						deck.add(new String[] {i+"","spades"});
-				}
-				else
-				{
-					if (i == 11)
-						deck.add(new String[] {"Jack","clubs"});
-					else if (i == 12)
-						deck.add(new String[] {"Queen","clubs"});
-					else if (i == 13)
-						deck.add(new String[] {"King","clubs"});
-					else if (i == 0)
-						deck.add(new String[] {"Ace","clubs"});
-					else
-						deck.add(new String[] {i+"","clubs"});
-				}
+				Socket socket = serverSocket.accept();  	// accept connection
+				// if I was asked to stop
+				if(!keepGoing)
+					break;
+				ClientThread t = new ClientThread(socket);  // make a thread of it
+				al.add(t);									// save it in the ArrayList
+				t.start();
 			}
-		}
-
-		//shuffle entire deck
-		ArrayList<String[]> cardList = new ArrayList<String[]>(deck);
-		Collections.shuffle(cardList);
-		deck = new ArrayDeque<String[]>(cardList);
-
-		try{
-			socket1 = new ServerSocket(port);
-			System.out.println("SingleSocketServer Initialized");
-			int character;
-			boolean gameOn = false;
-			while (true) {
-				connection = socket1.accept();
-
-				BufferedInputStream is = new BufferedInputStream(connection.getInputStream());
-				InputStreamReader isr = new InputStreamReader(is);
-				process = new StringBuffer();
-				while((character = isr.read()) != 13) {
-					process.append((char)character);
-				}
-				System.out.println(process);
-				
-				if (process.toString().contains("join"))
-				{
-					System.out.println("person joins");
-					if (gameOn == false)
-						gameOn = true;
-					String returnCode = "take card(s) :" + deck.peek()[0] + " of " + deck.pop()[1] +
-										"," + deck.peek()[0] + " of " + deck.pop()[1] +
-										"," + deck.peek()[0] + " of " + deck.pop()[1] + 
-										"," + deck.peek()[0] + " of " + deck.pop()[1] + 
-										"," + deck.peek()[0] + " of " + deck.pop()[1] + (char) 13;
-					BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
-					OutputStreamWriter osw = new OutputStreamWriter(os, "US-ASCII");
-					osw.write(returnCode);
-					osw.flush();
-				}
-				else {
-				//need to wait 10 seconds for the app to update database
+			// I was asked to stop
+			try {
+				serverSocket.close();
+				for(int i = 0; i < al.size(); ++i) {
+					ClientThread tc = al.get(i);
 					try {
-						Thread.sleep(1);
+						tc.sInput.close();
+						tc.sOutput.close();
+						tc.socket.close();
 					}
-					catch (Exception e){}
-					TimeStamp = new java.util.Date().toString();
-					String returnCode = process.toString() + (char) 13;
-					BufferedOutputStream os = new BufferedOutputStream(connection.getOutputStream());
-					OutputStreamWriter osw = new OutputStreamWriter(os, "US-ASCII");
-					osw.write(returnCode);
-					osw.flush();
+					catch(IOException ioE) {
+						// not much I can do
+					}
 				}
 			}
+			catch(Exception e) {
+				display("Exception closing the server and clients: " + e);
+			}
 		}
-		catch (IOException e) {}
+		// something went bad
+		catch (IOException e) {
+			String mview = " Exception on new ServerSocket: " + e + "\n";
+			display(mview);
+		}
+	}		
+	/*
+	 * For the GUI to stop the server
+	 */
+	protected void stop() {
+		keepGoing = false;
+		// connect to myself as Client to exit statement 
+		// Socket socket = serverSocket.accept();
 		try {
-			connection.close();
+			new Socket("localhost", port);
 		}
-		catch (IOException e) {}
+		catch(Exception e) {
+			// nothing I can really do
+		}
+	}
+	/*
+	 * Display an event (not a message) to the console or the GUI
+	 */
+	private void display(String mview) {
+		String time = sdf.format(new Date()) + " " + mview;
+		
+		System.out.println(time);
+		
+
+	}
+	/*
+	 *  to broadcast a message to all Clients
+	 */
+	synchronized void broadcast(ChatMessage message) {
+
+		// display message on console or GUI
+
+
+		// we loop in reverse order in case we would have to remove a Client
+		// because it has disconnected
+		for(int i = al.size(); --i >= 0;) {
+			ClientThread ct = al.get(i);
+			// try to write to the Client if it fails remove it from the list
+			if(!ct.writeMview(message)) {
+				al.remove(i);
+				display("Disconnected Client " + ct.username + " removed from list.");
+			}
+		}
+	}
+
+
+	// for a client who logoff using the LOGOUT message
+	synchronized void remove(int id) {
+		// scan the array list until we found the Id
+		for(int i = 0; i < al.size(); ++i) {
+			ClientThread ct = al.get(i);
+			// found it
+			if(ct.id == id) {
+				al.remove(i);
+				return;
+			}
+		}
+	}
+
+	/*
+	 *  To run as a console application just open a console window and: 
+	 * > java Server
+	 * > java Server portNumber
+	 * If the port number is not specified 28442 is used
+	 */ 
+	public static void main(String[] args) {
+		// start server on port 28442 unless a PortNumber is specified 
+		int portNumber = 28442;
+		switch(args.length) {
+		case 1:
+			try {
+				portNumber = Integer.parseInt(args[0]);
+			}
+			catch(Exception e) {
+				System.out.println("Invalid port number.");
+				System.out.println("Usage is: > java Server [portNumber]");
+				return;
+			}
+		case 0:
+			break;
+		default:
+			System.out.println("Usage is: > java Server [portNumber]");
+			return;
+
+		}
+		// create a server object and start it
+		Server server = new Server(portNumber);
+		server.start();
+	}
+
+	/** One instance of this thread will run for each client */
+	class ClientThread extends Thread {
+		// the socket where to listen/talk
+		Socket socket;
+		ObjectInputStream sInput;
+		ObjectOutputStream sOutput;
+		// my unique id (easier for deconnection)
+		int id;
+		// the Username of the Client
+		String username;
+		// the only type of message a will receive
+		ChatMessage cm;
+		// the date I connect
+		String date;
+
+		// Constructor
+		ClientThread(Socket socket) {
+			// a unique id
+			id = ++uniqueId;
+			this.socket = socket;
+			/* Creating both Data Stream */
+			System.out.println("Thread trying to create Object Input/Output Streams");
+			try
+			{
+				// create output first
+				sOutput = new ObjectOutputStream(socket.getOutputStream());
+				sInput  = new ObjectInputStream(socket.getInputStream());
+				// read the username
+				username = (String) sInput.readObject();
+				display(username + " just connected.\n");
+			}
+			catch (IOException e) {
+				display("Exception creating new Input/output Streams: " + e);
+				return;
+			}
+			// have to catch ClassNotFoundException
+			// but I read a String, I am sure it will work
+			catch (ClassNotFoundException e) {
+			}
+			date = new Date().toString() + "\n";
+		}
+
+		// what will run forever
+		public void run() {
+			// to loop until LOGOUT
+			boolean keepGoing = true;
+			while(keepGoing) {
+				// read a String (which is an object)
+				try {
+					cm = (ChatMessage) sInput.readObject();
+				}
+				catch (IOException e) {
+					if (cm.getUserClass() != null && !cm.getUserClass().equals(""))
+					{
+						display(cm.getUserClass() + " Exception reading Streams: " + e);
+						broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserClass() + ",logout", cm.getUserClass()));
+
+						for(String user : users)
+						{
+							if (user.contains(cm.getUserClass()))
+							{
+								users.remove(user);
+								numUsers--;
+								break;
+							}
+						}
+						
+					}
+					break;				
+				}
+				catch(ClassNotFoundException e2) {
+					break;
+				}
+				catch(ClassCastException e2) {
+					break;
+				}
+				// the message part of the ChatMessage
+
+
+				// Switch on the type of message receive
+				switch(cm.getType()) {
+				case ChatMessage.LOGOUT:
+					
+					broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserClass() + ",logout", cm.getUserClass()));
+					for(String user : users)
+					{
+						if (user.contains(cm.getUserClass()))
+						{
+							users.remove(user);
+							numUsers--;
+							break;
+						}
+					}
+					break;
+				case ChatMessage.WHOISIN:
+					for (int i = 0; i < users.size(); i++) {
+						broadcast(new ChatMessage(ChatMessage.MESSAGE, users.get(i) + ", is online\n", ""));
+					}
+					break;
+			
+				case ChatMessage.VICTORY:
+					display(username + ", won\n");
+					//broadcast(scores[0]);
+					break;
+				case ChatMessage.CONNECT:
+					broadcast(new ChatMessage(ChatMessage.WHOISIN, cm.getMessage() + ", connected", ""));
+					if (cm.getMessage().getClass().equals(String.class))
+					{
+						if(!(numUsers<0)){
+							users.add((String)cm.getMessage());
+							numUsers++;
+						}else{
+							numUsers=0;
+							users.add((String)cm.getMessage());
+							numUsers++;
+						}
+					}
+					break;
+
+				}
+			}
+			// remove myself from the arrayList containing the list of the
+			// connected Clients
+			remove(id);
+			close();
+		}
+
+		// try to close everything
+		private void close() {
+			// try to close the connection
+			try {
+				if(sOutput != null) sOutput.close();
+			}
+			catch(Exception e) {}
+			try {
+				if(sInput != null) sInput.close();
+			}
+			catch(Exception e) {};
+			try {
+				if(socket != null) socket.close();
+			}
+			catch (Exception e) {}
+		}
+
+		/*
+		 * Write a String to the Client output stream
+		 */
+
+		private boolean writeMview(ChatMessage mview) {
+			// if Client is still connected send the message to it
+			if(!socket.isConnected()) {
+				close();
+				return false;
+			}
+			// write the message to the stream
+			try {
+				sOutput.writeObject(mview);
+			}
+			// if an error occurs, do not abort just inform the user
+			catch(IOException e) {
+				//display("Error sending message to " + username);
+				display(e.toString());
+			}
+			return true;
+		}
+
 	}
 }
