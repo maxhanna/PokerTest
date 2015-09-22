@@ -216,9 +216,8 @@ public class Client  {
 
 
 			System.out.print(": ");
-			msg = keyboard.next( );
+			msg = keyboard.nextLine( );
 			
-			System.out.println("sending message to server");
 			// logout if message is LOGOUT
 			if(msg.equalsIgnoreCase("LOGOUT")) {
 					client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", model.userNames.get(0)));
@@ -234,6 +233,11 @@ public class Client  {
 	
 					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
 					System.out.println("sending ordinary message to server");
+					
+					if (msg.contains("return"))
+					{
+						String cards = msg.replace("return ", "");
+					}
 	
 				}
 			
@@ -274,7 +278,7 @@ public class Client  {
 							{	
 								System.out.println("youre taking cards");
 								String cards = msg;
-								cards = cards.substring(msg.indexOf("takes "), msg.length()-1);
+								cards = cards.replace(model.userNames.get(0) + " takes ","");
 
 								String delims2 = "[,]+";
 								String[] hand = cards.split(delims2);
@@ -290,6 +294,28 @@ public class Client  {
 								}
 								
 								
+							}
+							if (tokens[i+1].contains("gets"))
+							{	
+								String cards = msg;
+								cards = cards.replace(model.userNames.get(0) + " gets ", "");
+
+								System.out.println("youre getting cards " + cards);
+								String delims2 = "[,]+";
+								String[] received = cards.split(delims2);
+								
+								for(String s : received)
+								{
+									model.hand.add(s);
+									System.out.println("Added " + s + " to hand");
+								}
+
+								System.out.println("Current hand: ");
+								for(String s : model.hand)
+								{
+									System.out.print(s + ", ");
+								}
+								System.out.print("\n");
 							}
 						}
 						//A new player has connected.

@@ -225,7 +225,7 @@ public class Server {
 		}
 		public void createDeck(ArrayList<String> deck){
 			for (int suit = 0; suit < 4; suit ++){
-				for (int num = 0; num < 13; num ++)
+				for (int num = 1; num < 13; num ++)
 				{
 					if (num == 1)
 					{
@@ -289,6 +289,32 @@ public class Server {
 		public void shuffleDeck(ArrayList<String> deck){
 			Collections.shuffle(deck);
 		}
+		public boolean returnCards(String cards, ArrayList<String> deck){
+			String delims2 = "[,]+";
+			String[] returned = cards.split(delims2);
+			int deckSize = deck.size();
+			for(String s : returned)
+			{
+				deck.add(s);
+			}
+			if (deck.size() > deckSize)
+				return true;
+			else
+				return false;
+		}	
+		public String takeCards(int num, ArrayList<String> deck){
+			String cards = "";
+			for (int i = 0; i < num; i++)
+			{
+				if (i==num-1)
+					cards = cards + deck.get(0);	
+				else
+					cards = cards + deck.get(0) + ",";
+				deck.remove(0);
+			}
+			return cards;
+		}
+		
 		public String serveCards(ArrayList<String> deck){
 			if (deck.size() > 4)
 			{
@@ -375,10 +401,27 @@ public class Server {
 						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
 								" takes " + cards, cm.getUserName()));
 
-
-
 					}
+					else if (cm.getMessage().contains("return"))
+					{
+						String returned = cm.getMessage().replace("return ", "");
+						System.out.println("user is returning: " + returned);
+						
+						if(returnCards(returned, deck))
+							System.out.println("Cards successfully returned to deck.");
+						else
+							System.out.println("Cards were not successfully returned to deck.");
+						
+						int count = cm.getMessage().substring(cm.getMessage().indexOf("return "), cm.getMessage().length()).split(",", -1).length-1;
+						
+						String cards = takeCards(count+1,deck);
+						
+						System.out.println("Server delt : " + cards);
+						broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
+								" gets " + cards, cm.getUserName()));
+						
 					
+					}
 					display(cm.getMessage());
 					break;
 
