@@ -446,7 +446,7 @@ public class Server {
 								System.out.println("Cards successfully returned to deck.");
 							else
 								System.out.println("Cards were not successfully returned to deck.");
-
+							shuffleDeck(deck);
 							int count = cm.getMessage().substring(cm.getMessage().indexOf("return "), cm.getMessage().length()).split(",", -1).length-1;
 
 							String cards = takeCards(count+1,deck);

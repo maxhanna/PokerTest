@@ -303,7 +303,7 @@ public class Client  {
 		
 		return false;
 	}
-	public boolean checkTwoOfAKind(String hand)
+	public boolean checkPair(String hand)
 	{
 		String findStr = "Ace";
 		int count = 0;
@@ -455,6 +455,98 @@ public class Client  {
 		
 		return 0;
 	}
+	public boolean checkTwoPair(String hand)
+	{
+		int num;
+		for (num = 1; num<13; num++)
+		{
+			String pair = num+"";
+			String s = hand;
+			if (num==1)
+				pair = "Ace";
+			else if (num==11)
+				pair = "Jack";
+			else if (num==12)
+				pair = "Queen";
+			else if (num==13)
+				pair = "King";
+				
+			int count = 0;
+			int index;
+			int numPairs = 0;
+			while(true) {
+			    index = s.indexOf(pair);
+			    if(index == -1) break;
+			    s = s.substring(index + pair.length());
+			    count++;
+			    if (count == 2){
+			    	numPairs++;
+			    }
+			}
+			if (numPairs>1)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	public boolean checkStraight(String hand)
+	{
+		if (hand.contains("Ace") && hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("2"))
+		  {
+		    return true;
+		  }
+		if (hand.contains("2") && hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("10") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("10") && hand.contains("11") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("8") && hand.contains("9"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("9"))
+		  {
+		    return true;
+		  }
+		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("Ace"))
+		  {
+		    return true;
+		  }
+		return false;
+	}
+	public boolean checkFlush(String hand)
+	{
+		String string = hand;
+		String[] cards = string.split(",");
+		String card1 = cards[0];
+		String[] cardParts = card1.split(" ");
+		String suit = cardParts[2];
+		int count = hand.length() - hand.replace(suit, "").length();
+		if (count==5)
+			return true;
+		return false;
+	}
+	
 	public String calculateWinner()
 	{
 
@@ -471,19 +563,28 @@ public class Client  {
 				//14 max for ace high
 				userPoints = checkHigh(model.userHands.get(user));
 				//15 points for two of a kind
-				if (checkTwoOfAKind(model.userHands.get(user)))
+				if (checkPair(model.userHands.get(user)))
 					userPoints = 15;
-				//16 points for three of a kind
-				if (checkThreeOfAKind(model.userHands.get(user)))
+				//16 points for two pair
+				if (checkTwoPair(model.userHands.get(user)))
 					userPoints = 16;
-				//17 points for four of a kind
-				if (checkFourOfAKind(model.userHands.get(user)))
+				//17 points for three of a kind
+				if (checkThreeOfAKind(model.userHands.get(user)))
 					userPoints = 17;
+				//18 points for straight
+				if (checkStraight(model.userHands.get(user)))
+					userPoints = 18;
+				//19 points for flush
+				if (checkFlush(model.userHands.get(user)))
+					userPoints = 19;
+				//20 points for four of a kind
+				if (checkFourOfAKind(model.userHands.get(user)))
+					userPoints = 20;
 				
 				if (userPoints > victorPoints){
 					victor = user;
 					victorPoints = userPoints;
-					if (victorPoints > 15)
+					if (victorPoints > 10)
 					{
 						if (checkHigh(model.userHands.get(user)) == 14)
 							winningHand = "Ace high";
@@ -498,15 +599,21 @@ public class Client  {
 						}
 						
 					}
-					if (checkTwoOfAKind(model.userHands.get(user)))
-						winningHand = "Two of a kind";
+					if (checkPair(model.userHands.get(user)))
+						winningHand = "Pair";
+					if (checkTwoPair(model.userHands.get(user)))
+						winningHand = "Two Pair";
 					if (checkThreeOfAKind(model.userHands.get(user)))
 						winningHand = "Three of a kind";
+					if (checkStraight(model.userHands.get(user)))
+						winningHand = "Straight";
+					if (checkFlush(model.userHands.get(user)))
+						winningHand = "Flush";
 					if (checkFourOfAKind(model.userHands.get(user)))
 						winningHand = "Four of a kind";
 				}
 			}
-			return victor + " with " + winningHand;
+			return (victor + " with " + winningHand + victorPoints ) ;
 		}
 		
 	}
@@ -667,10 +774,8 @@ public class Client  {
 
 								String delims2 = "[,]+";
 								String[] hand = cards.split(delims2);
-								for(String s : model.hand)
-								{
-									model.hand.remove(s);
-								}
+								if (!model.hand.isEmpty())
+									model.hand.clear();
 								System.out.println("your current hand:");
 								for(String s : hand)
 								{
