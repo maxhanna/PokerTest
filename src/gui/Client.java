@@ -542,8 +542,38 @@ public class Client  {
 		String[] cardParts = card1.split(" ");
 		String suit = cardParts[2];
 		int count = hand.length() - hand.replace(suit, "").length();
-		if (count==5)
+		if (count>4)
 			return true;
+		return false;
+	}
+	public boolean checkFullHouse(String hand)
+	{
+		if (checkThreeOfAKind(hand))
+		{
+			for (int cardNum=1;cardNum<14;cardNum++)
+			{
+				String str = hand;
+			    String findStr = cardNum+"";
+			    if (findStr.contains("1"))
+			    	findStr = "Ace";
+			    else if (findStr.contains("11"))
+			    	findStr = "Jack";
+			    else if (findStr.contains("12"))
+			    	findStr = "Queen";
+			    else if (findStr.contains("13"))
+			    	findStr = "King";
+			    int lastIndex = 0;
+			    int count = 0;
+
+			    while ((lastIndex = str.indexOf(findStr, lastIndex)) != -1) {
+			        count++;
+			        lastIndex += findStr.length() - 1;
+			    }
+			    if (count==2)
+				   return true;
+			}
+			
+		}
 		return false;
 	}
 	
@@ -577,9 +607,12 @@ public class Client  {
 				//19 points for flush
 				if (checkFlush(model.userHands.get(user)))
 					userPoints = 19;
-				//20 points for four of a kind
-				if (checkFourOfAKind(model.userHands.get(user)))
+				//20 points for full house
+				if (checkFullHouse(model.userHands.get(user)))
 					userPoints = 20;
+				//21 points for four of a kind
+				if (checkFourOfAKind(model.userHands.get(user)))
+					userPoints = 21;
 				
 				if (userPoints > victorPoints){
 					victor = user;
@@ -609,6 +642,8 @@ public class Client  {
 						winningHand = "Straight";
 					if (checkFlush(model.userHands.get(user)))
 						winningHand = "Flush";
+					if (checkFullHouse(model.userHands.get(user)))
+						winningHand = "Full House";
 					if (checkFourOfAKind(model.userHands.get(user)))
 						winningHand = "Four of a kind";
 				}
