@@ -546,6 +546,15 @@ public class Client  {
 			return true;
 		return false;
 	}
+	public boolean checkRoyalFlush(String hand)
+	{
+		if (hand.contains("Ace") && hand.contains("King") && hand.contains("Queen") && hand.contains("Jack") && hand.contains("10"))
+		  {
+			if (checkFlush(hand))
+				return true;
+		  }
+		return false;
+	}
 	public boolean checkFullHouse(String hand)
 	{
 		if (checkThreeOfAKind(hand))
@@ -574,6 +583,13 @@ public class Client  {
 			}
 			
 		}
+		return false;
+	}
+	public boolean checkStraightFlush(String hand)
+	{
+		if (checkStraight(hand))
+			if (checkFlush(hand))
+				return true;
 		return false;
 	}
 	
@@ -613,6 +629,12 @@ public class Client  {
 				//21 points for four of a kind
 				if (checkFourOfAKind(model.userHands.get(user)))
 					userPoints = 21;
+				//22 points for a straight flush
+				if (checkStraightFlush(model.userHands.get(user)))
+					userPoints = 22;
+				//23 points for a royal flush
+				if (checkRoyalFlush(model.userHands.get(user)))
+					userPoints = 23;
 				
 				if (userPoints > victorPoints){
 					victor = user;
@@ -646,9 +668,13 @@ public class Client  {
 						winningHand = "Full House";
 					if (checkFourOfAKind(model.userHands.get(user)))
 						winningHand = "Four of a kind";
+					if (checkStraightFlush(model.userHands.get(user)))
+						winningHand = "Straight Flush";
+					if (checkRoyalFlush(model.userHands.get(user)))
+						winningHand = "Royal Flush";
 				}
 			}
-			return (victor + " with " + winningHand + victorPoints ) ;
+			return (victor + " with " + winningHand + " " + victorPoints ) ;
 		}
 		
 	}
