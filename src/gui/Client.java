@@ -447,6 +447,7 @@ public class Client  {
 	public boolean checkTwoPair(String hand)
 	{
 		int num;
+		int numPairs = 0;
 		for (num = 1; num<13; num++)
 		{
 			String pair = num+"";
@@ -462,7 +463,6 @@ public class Client  {
 				
 			int count = 0;
 			int index;
-			int numPairs = 0;
 			while(true) {
 			    index = s.indexOf(pair);
 			    if(index == -1) break;
@@ -867,18 +867,20 @@ public class Client  {
 							if (tokens[i+1].contains("gets"))
 							{	
 								String cards = msg;
-								cards = cards.replace(model.userNames.get(0) + " gets ", "");
-
-								System.out.println("youre getting cards " + cards);
-								String delims2 = "[,]+";
-								String[] received = cards.split(delims2);
-								
-								for(String s : received)
+								if (!cards.contains("gets nothing"))
 								{
-									model.hand.add(s);
-									System.out.println("Added " + s + " to hand");
+									cards = cards.replace(model.userNames.get(0) + " gets ", "");
+	
+									System.out.println("youre getting cards " + cards);
+									String delims2 = "[,]+";
+									String[] received = cards.split(delims2);
+									
+									for(String s : received)
+									{
+										model.hand.add(s);
+										System.out.println("Added " + s + " to hand");
+									}
 								}
-
 								System.out.println("Current hand: ");
 								String hand = "";
 								for(String s : model.hand)

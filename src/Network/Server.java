@@ -463,6 +463,21 @@ public class Server {
 
 						
 					}
+					else if (cm.getMessage().contains("pass"))
+					{
+						if (!usersPlayed.contains(cm.getUserName()))
+						{
+							broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
+									" gets nothing", cm.getUserName()));
+						}
+						else
+						{
+							broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
+									" cannot play, waiting for other players to play. ", cm.getUserName()));
+						}
+
+						
+					}
 					display(cm.getMessage());
 					break;
 
