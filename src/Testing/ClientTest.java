@@ -49,7 +49,6 @@ public class ClientTest {
 		//testing Client and Game Rules
 		model.userNames.add("test");
 		Client client = new Client("localhost", 24442, model.userNames.get(0), model);
-		
 			
 		hand = "2 of spades,2 of clubs,2 of hearts,2 of diamonds,3 of hearts";
 		assertTrue(3 == client.checkHigh(hand));
@@ -93,6 +92,15 @@ public class ClientTest {
 		hand = "Ace of spades,Ace of clubs,Ace of diamonds,Jack of diamonds,2 of hearts";
 		assertTrue(client.checkThreeOfAKind(hand));
 
+		hand = "2 of spades,Ace of clubs,10 of diamonds,Jack of diamonds,2 of hearts";
+		assertFalse(client.checkFourOfAKind(hand));
+		hand = "2 of spades,2 of clubs,2 of diamonds,Jack of diamonds,2 of hearts";
+		assertTrue(client.checkFourOfAKind(hand));
+		hand = "King of spades,King of clubs,King of diamonds,Jack of diamonds,King of hearts";
+		assertTrue(client.checkFourOfAKind(hand));
+		hand = "Ace of spades,Ace of clubs,Ace of diamonds,Jack of diamonds,Ace of hearts";
+		assertTrue(client.checkFourOfAKind(hand));
+
 		hand = "Ace of spades,Ace of clubs,Ace of hearts,Ace of diamonds,10 of hearts";
 		assertTrue(client.checkFourOfAKind(hand));
 		hand = "Ace of spades,4 of clubs,Ace of hearts,Ace of diamonds,Ace of clubs";
@@ -112,12 +120,19 @@ public class ClientTest {
 		hand = "Ace of spades,2 of hearts,3 of spades,4 of spades,6 of hearts";
 		assertFalse(client.checkStraight(hand));
 
-		hand = "2 of spades,2 of hearts,3 of spades,3 of hearts,3 of diamonds";
-		assertTrue(client.checkFullHouse(hand));
-		hand = "5 of spades,5 of hearts,6 of spades,6 of clubs,6 of hearts";
-		assertTrue(client.checkFullHouse(hand));
+		
 		hand = "Ace of spades,2 of hearts,3 of spades,4 of spades,6 of hearts";
 		assertFalse(client.checkFullHouse(hand));
+		hand = "Ace of spades,5 of hearts,6 of spades,6 of clubs,6 of hearts";
+		assertFalse(client.checkFullHouse(hand));
+		hand = "Ace of spades,Ace of hearts,6 of spades,6 of clubs,6 of hearts";
+		assertTrue(client.checkFullHouse(hand));
+		hand = "Ace of spades,6 of clubs,6 of spades,Ace of clubs,6 of hearts";
+		assertTrue(client.checkFullHouse(hand));
+		hand = "King of spades,6 of clubs,6 of spades,King of clubs,6 of hearts";
+		assertTrue(client.checkFullHouse(hand));
+		hand = "10 of spades,6 of clubs,6 of spades,10 of clubs,6 of hearts";
+		assertTrue(client.checkFullHouse(hand));
 
 		hand = "4 of spades,6 of spades,2 of spades,5 of spades,3 of spades";
 		assertTrue(client.checkStraightFlush(hand));
