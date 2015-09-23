@@ -541,7 +541,14 @@ public class Client  {
 		String card1 = cards[0];
 		String[] cardParts = card1.split(" ");
 		String suit = cardParts[2];
-		int count = hand.length() - hand.replace(suit, "").length();
+	    int lastIndex = 0;
+	    int count = 0;
+	    String str = hand;
+	    String findStr = suit;
+	    while ((lastIndex = str.indexOf(findStr, lastIndex)) != -1) {
+	        count++;
+	        lastIndex += findStr.length() - 1;
+	    }
 		if (count>4)
 			return true;
 		return false;
@@ -674,6 +681,7 @@ public class Client  {
 						winningHand = "Royal Flush";
 				}
 			}
+			model.phase = 1;
 			return (victor + " with " + winningHand + " " + victorPoints ) ;
 		}
 		
@@ -772,22 +780,38 @@ public class Client  {
 	
 				else {				// default to ordinary message
 	
-					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
-					
+					if (msg.contains("serve"))
+					{
+						if (model.phase > 2)
+						{
+							msg = "";
+							System.out.println("You have already been served.");
+						}
+						else
+							model.phase = 2;
+					}
 					if (msg.contains("return"))
 					{
-						String cards = msg.replace("return ", "");
-						cards = cards.replace(", ", ",");
-
-						String delims2 = "[,]+";
-						String[] hand = cards.split(delims2);
-						for (String card : hand){
-							if (model.hand.remove(card))
-								System.out.println("Removed "+ card + " from hand.");
+						if (model.phase<2)
+						{
+							System.out.println("No cards to return!");
+							msg = "";
 						}
-						System.out.println("Returning cards to server");
-						
+						else {
+							model.phase = 3;
+							String cards = msg.replace("return ", "");
+							cards = cards.replace(", ", ",");
+	
+							String delims2 = "[,]+";
+							String[] hand = cards.split(delims2);
+							for (String card : hand){
+								if (model.hand.remove(card))
+									System.out.println("Removed "+ card + " from hand.");
+							}
+							System.out.println("Returning cards to server");
+						}
 					}
+					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
 					
 					System.out.println("Sending ordinary message to server");
 					
@@ -895,7 +919,7 @@ public class Client  {
 
 						else if (tokens[i+1].contains("disconnected"))
 						{
-
+							model.userHands.remove(tokens[i]);
 						}
 						else {
 							//System.out.println(msg);

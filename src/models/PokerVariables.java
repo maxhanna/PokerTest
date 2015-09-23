@@ -6,8 +6,7 @@ import java.util.HashMap;
 
 public class PokerVariables implements Serializable {
 	protected static final long serialVersionUID = 1112122330L;
-	public boolean cheatMode = true;
-	public int follow = 0;
+	public boolean cheatMode = false;
 	public int start = 0;
 	public int play = 0;
 	public ArrayList<String> userNames = new ArrayList<String>();
