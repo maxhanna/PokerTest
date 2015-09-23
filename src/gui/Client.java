@@ -4,8 +4,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 import models.ChatMessage;
@@ -32,15 +30,6 @@ public class Client  {
 	 *  username: the username
 	 */
 
-	public static String[] removeElements(String[] input, String deleteMe) {
-		List<String> result = new LinkedList<String>();
-
-		for(String item : input)
-			if(!deleteMe.equals(item))
-				result.add(item);
-
-		return result.toArray(input);
-	}
 	/*
 	 * Constructor call when used from a GUI
 	 * in console mode the ClienGUI parameter is null
@@ -516,7 +505,7 @@ public class Client  {
 		  {
 		    return true;
 		  }
-		  if (hand.contains("10") && hand.contains("11") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
 		  {
 		    return true;
 		  }
@@ -800,6 +789,10 @@ public class Client  {
 						else {
 							model.phase = 3;
 							String cards = msg.replace("return ", "");
+							cards = msg.replace("ace", "Ace");
+							cards = msg.replace("jack", "Jack");
+							cards = msg.replace("queen", "Queen");
+							cards = msg.replace("king", "King");
 							cards = cards.replace(", ", ",");
 	
 							String delims2 = "[,]+";
