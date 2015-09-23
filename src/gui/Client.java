@@ -809,6 +809,7 @@ public class Client  {
 									System.out.println("Removed "+ card + " from hand.");
 							}
 							System.out.println("Returning cards to server");
+							model.day++;
 						}
 					}
 					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
