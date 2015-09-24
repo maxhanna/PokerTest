@@ -14,7 +14,7 @@ public class Client  {
 	// for I/O	
 	String scores;
 	// Variables needed to maintain game
-	PokerVariables model;
+	public PokerVariables model;
 	private ObjectInputStream sInput;		// to read from the socket
 	private ObjectOutputStream sOutput;		// to write on the socket
 	private Socket socket;
@@ -618,34 +618,73 @@ public class Client  {
 			{
 				//14 max for ace high
 				userPoints = checkHigh(model.userHands.get(user));
-
+				String userHand = "";
 				//23 points for a royal flush
 				if (checkRoyalFlush(model.userHands.get(user)))
+				{
 					userPoints = userPoints + 23;
+					userHand = "Royal Flush";
+				}
 				//22 points for a straight flush
-				else if (checkStraightFlush(model.userHands.get(user)))
+				else if (checkStraightFlush(model.userHands.get(user))){
+					userHand = "Straight Flush";
 					userPoints = userPoints + 22;
+				}
 				//21 points for four of a kind
-				else if (checkFourOfAKind(model.userHands.get(user)))
+				else if (checkFourOfAKind(model.userHands.get(user))){
 					userPoints = userPoints + 21;
+					userHand = "Four of a Kind";
+				}
 				//20 points for full house
-				else if (checkFullHouse(model.userHands.get(user)))
+				else if (checkFullHouse(model.userHands.get(user))){
 					userPoints = userPoints + 20;
+					userHand = "Full House";
+				}
 				//19 points for flush
-				else if (checkFlush(model.userHands.get(user)))
+				else if (checkFlush(model.userHands.get(user))){
 					userPoints = userPoints + 19;
+					userHand = "Flush";
+				}
 				//18 points for straight
-				else if (checkStraight(model.userHands.get(user)))
+				else if (checkStraight(model.userHands.get(user))){
 					userPoints = userPoints + 18;
+					userHand = "Straight";
+				}
 				//17 points for three of a kind
-				else if (checkThreeOfAKind(model.userHands.get(user)))
+				else if (checkThreeOfAKind(model.userHands.get(user))){
 					userPoints = userPoints + 17;
+					userHand = "Three of a kind";
+				}
 				//16 points for two pair
-				else if (checkTwoPair(model.userHands.get(user)))
+				else if (checkTwoPair(model.userHands.get(user))){
 					userPoints = userPoints + 16;
+					userHand = "Two Pair";
+				}
 				//15 points for pair
-				else if (checkPair(model.userHands.get(user)))
+				else if (checkPair(model.userHands.get(user))) {
 					userPoints = userPoints + 15;
+					userHand = "Pair";
+				}
+				else if (checkHigh(model.userHands.get(user)) == 14){
+					userHand = "Ace high";
+					userPoints = 14;
+				}
+				else if (checkHigh(model.userHands.get(user)) == 13){
+					userHand = "King high";
+					userPoints = 13;
+				}
+				else if (checkHigh(model.userHands.get(user)) == 12){
+					userHand = "Queen high";
+					userPoints = 12;
+				}
+				else if (checkHigh(model.userHands.get(user)) == 11){
+					userHand = "Jack high";
+					userPoints = 11;
+				}
+				else {
+					userHand = checkHigh(model.userHands.get(user))+" high";
+					userPoints = checkHigh(model.userHands.get(user));
+				}
 				
 				
 				// point system takes into account high cards.
@@ -653,122 +692,28 @@ public class Client  {
 				if (userPoints > victorPoints){
 					victor = user;
 					victorPoints = userPoints;
-					if (victorPoints > 10)
-					{
-						if (checkHigh(model.userHands.get(user)) == 14)
-							winningHand = "Ace high";
-						else if (checkHigh(model.userHands.get(user)) == 13)
-							winningHand = "King high";
-						else if (checkHigh(model.userHands.get(user)) == 12)
-							winningHand = "Queen high";
-						else if (checkHigh(model.userHands.get(user)) == 11)
-							winningHand = "Jack high";
-						else {
-							winningHand = checkHigh(model.userHands.get(user))+" high";
-						}
-						
-					}
-					if (checkPair(model.userHands.get(user)))
-						winningHand = "Pair";
-					if (checkTwoPair(model.userHands.get(user)))
-						winningHand = "Two Pair";
-					if (checkThreeOfAKind(model.userHands.get(user)))
-						winningHand = "Three of a kind";
-					if (checkStraight(model.userHands.get(user)))
-						winningHand = "Straight";
-					if (checkFlush(model.userHands.get(user)))
-						winningHand = "Flush";
-					if (checkFullHouse(model.userHands.get(user)))
-						winningHand = "Full House";
-					if (checkFourOfAKind(model.userHands.get(user)))
-						winningHand = "Four of a kind";
-					if (checkStraightFlush(model.userHands.get(user)))
-						winningHand = "Straight Flush";
-					if (checkRoyalFlush(model.userHands.get(user)))
-						winningHand = "Royal Flush";
+					winningHand = userHand;
+					System.out.println("First is now : "+victor);
 				}
-				else if (userPoints > secondPoints){
+				else if ((userPoints > secondPoints)){
 					second = user;
 					secondPoints = userPoints;
-					if (secondPoints > 10)
-					{
-						if (checkHigh(model.userHands.get(user)) == 14)
-							secondHand = "Ace high";
-						else if (checkHigh(model.userHands.get(user)) == 13)
-							secondHand = "King high";
-						else if (checkHigh(model.userHands.get(user)) == 12)
-							secondHand = "Queen high";
-						else if (checkHigh(model.userHands.get(user)) == 11)
-							secondHand = "Jack high";
-						else {
-							secondHand = checkHigh(model.userHands.get(user))+" high";
-						}
-						
-					}
-					if (checkPair(model.userHands.get(user)))
-						secondHand = "Pair";
-					if (checkTwoPair(model.userHands.get(user)))
-						secondHand = "Two Pair";
-					if (checkThreeOfAKind(model.userHands.get(user)))
-						secondHand = "Three of a kind";
-					if (checkStraight(model.userHands.get(user)))
-						secondHand = "Straight";
-					if (checkFlush(model.userHands.get(user)))
-						secondHand = "Flush";
-					if (checkFullHouse(model.userHands.get(user)))
-						secondHand = "Full House";
-					if (checkFourOfAKind(model.userHands.get(user)))
-						secondHand = "Four of a kind";
-					if (checkStraightFlush(model.userHands.get(user)))
-						secondHand = "Straight Flush";
-					if (checkRoyalFlush(model.userHands.get(user)))
-						secondHand = "Royal Flush";
+					secondHand = userHand;
+					System.out.println("Second is now : "+second);
 				}
-				else if (userPoints > thirdPoints){
+				else if ((userPoints > thirdPoints)){
 					third = user;
 					thirdPoints = userPoints;
-					if (thirdPoints > 10)
-					{
-						if (checkHigh(model.userHands.get(user)) == 14)
-							thirdHand = "Ace high";
-						else if (checkHigh(model.userHands.get(user)) == 13)
-							thirdHand = "King high";
-						else if (checkHigh(model.userHands.get(user)) == 12)
-							thirdHand = "Queen high";
-						else if (checkHigh(model.userHands.get(user)) == 11)
-							thirdHand = "Jack high";
-						else {
-							thirdHand = checkHigh(model.userHands.get(user))+" high";
-						}
-						
-					}
-					if (checkPair(model.userHands.get(user)))
-						thirdHand = "Pair";
-					if (checkTwoPair(model.userHands.get(user)))
-						thirdHand = "Two Pair";
-					if (checkThreeOfAKind(model.userHands.get(user)))
-						thirdHand = "Three of a kind";
-					if (checkStraight(model.userHands.get(user)))
-						thirdHand = "Straight";
-					if (checkFlush(model.userHands.get(user)))
-						thirdHand = "Flush";
-					if (checkFullHouse(model.userHands.get(user)))
-						thirdHand = "Full House";
-					if (checkFourOfAKind(model.userHands.get(user)))
-						thirdHand = "Four of a kind";
-					if (checkStraightFlush(model.userHands.get(user)))
-						thirdHand = "Straight Flush";
-					if (checkRoyalFlush(model.userHands.get(user)))
-						thirdHand = "Royal Flush";
+					thirdHand = userHand;
 				}
 			}
 			model.phase = 1;
 			if (model.userHands.keySet().size()==1)
-				return (victor + " with " + winningHand + " " + victorPoints ) ;
+				return (victor + " with " + winningHand + " " ) ;
 			else if (model.userHands.keySet().size()==2)
-				return (victor + " with " + winningHand + " " + victorPoints + " Followed by " + second + " with " + secondHand) ;
+				return (victor + " with " + winningHand + " Followed by " + second + " with " + secondHand + secondPoints) ;
 			else
-				return (victor + " with " + winningHand + " " + victorPoints + " Followed by " + second + " with " + secondHand + ", and " + third + " with " + thirdHand) ;
+				return (victor + " with " + winningHand + " Followed by " + second + " with " + secondHand + ", and " + third + " with " + thirdHand) ;
 		}
 		
 	}
@@ -895,8 +840,10 @@ public class Client  {
 							String delims2 = "[,]+";
 							String[] hand = cards.split(delims2);
 							for (String card : hand){
-								if (model.hand.remove(card))
-									System.out.println("Removed "+ card + " from hand.");
+								if (card.contains("return"))
+									card = card.replace("return ", "");
+								model.hand.remove(card);
+								System.out.println("Removed "+ card + " from hand.");
 							}
 							System.out.println("Returning cards to server");
 							model.day++;
@@ -1015,7 +962,7 @@ public class Client  {
 							model.userHands.remove(tokens[i]);
 						}
 						else {
-							//System.out.println(msg);
+				//			System.out.println(msg1.getUserName() +" "+msg1.getMessage() + "\n");
 						}
 					}
 

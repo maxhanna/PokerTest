@@ -435,7 +435,7 @@ public class Server {
 						}
 
 					}
-					else if (cm.getMessage().contains("return"))
+					else if (cm.getMessage().contains("return") && cm.getMessage().contains("of"))
 					{
 						if (!usersPlayed.contains(cm.getUserName()))
 						{

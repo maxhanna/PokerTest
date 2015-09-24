@@ -110,12 +110,16 @@ public class ClientTest {
 
 		hand = "Ace of spades,10 of spades,2 of spades,3 of spades,4 of spades";
 		assertTrue(client.checkFlush(hand));
+		hand = "King of spades,Ace of spades,Jack of spades,3 of spades,4 of spades";
+		assertTrue(client.checkFlush(hand));
 		hand = "Ace of spades,10 of hearts,2 of spades,3 of spades,4 of spades";
 		assertFalse(client.checkFlush(hand));
 
 		hand = "Ace of spades,2 of spades,3 of spades,4 of spades,5 of spades";
 		assertTrue(client.checkStraight(hand));
 		hand = "5 of spades,7 of hearts,6 of spades,8 of spades,9 of hearts";
+		assertTrue(client.checkStraight(hand));
+		hand = "Ace of spades,King of hearts,Queen of spades,Jack of spades,10 of hearts";
 		assertTrue(client.checkStraight(hand));
 		hand = "Ace of spades,2 of hearts,3 of spades,4 of spades,6 of hearts";
 		assertFalse(client.checkStraight(hand));
@@ -134,6 +138,8 @@ public class ClientTest {
 		hand = "10 of spades,6 of clubs,6 of spades,10 of clubs,6 of hearts";
 		assertTrue(client.checkFullHouse(hand));
 
+		hand = "Ace of spades,3 of spades,4 of spades,5 of spades,2 of spades";
+		assertTrue(client.checkStraightFlush(hand));
 		hand = "4 of spades,6 of spades,2 of spades,5 of spades,3 of spades";
 		assertTrue(client.checkStraightFlush(hand));
 		hand = "2 of spades,3 of spades,4 of spades,5 of spades,6 of spades";
@@ -144,11 +150,34 @@ public class ClientTest {
 		assertTrue(client.checkStraightFlush(hand));
 		hand = "2 of spades,3 of spades,4 of spades,5 of spades,7 of spades";
 		assertFalse(client.checkStraightFlush(hand));
-		
+		hand = "2 of spades,4 of spades,6 of spades,5 of spades,7 of spades";
+		assertFalse(client.checkStraightFlush(hand));
+
 		hand = "Ace of spades,King of spades,Queen of spades,Jack of spades,10 of spades";
+		assertTrue(client.checkRoyalFlush(hand));
+		hand = "Ace of hearts,King of hearts,Queen of hearts,Jack of hearts,10 of hearts";
 		assertTrue(client.checkRoyalFlush(hand));
 		hand = "Ace of hearts,King of spades,Queen of spades,Jack of spades,10 of spades";
 		assertFalse(client.checkRoyalFlush(hand));
+		hand = "Ace of spades,King of spades,Queen of spades,Jack of spades,9 of spades";
+		assertFalse(client.checkRoyalFlush(hand));
+		hand = "Ace of spades,9 of spades,Queen of spades,Jack of spades,10 of spades";
+		assertFalse(client.checkRoyalFlush(hand));
+		
+		//Client.calculateWinner();
+		String hand1 = "Ace of hearts,King of hearts,Queen of hearts,Jack of hearts,10 of hearts";
+		String hand2 = "2 of spades,3 of spades,4 of spades,5 of spades,6 of spades";
+		assertTrue(client.checkRoyalFlush(hand1));
+		client.model.userHands.put("test",hand1);
+		assertTrue(client.model.userHands.containsKey("test"));
+		assertTrue(client.checkStraightFlush(hand2));
+		client.model.userHands.put("test2", hand2);
+		assertTrue(client.model.userHands.containsKey("test2"));
+		assertTrue(client.model.userHands.get("test2").equals(hand2));
+		assertTrue(client.model.userHands.get("test").equals(hand1));
+		System.out.println(client.calculateWinner());
+		assertTrue(client.calculateWinner().contains("test with Royal Flush"));
+		assertTrue(client.calculateWinner().contains("test2 with Straight Flush"));
 		
 		
 	}
