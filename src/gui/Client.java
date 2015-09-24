@@ -1,10 +1,14 @@
 package gui;
+import java.awt.List;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import models.ChatMessage;
 import models.PokerVariables;
@@ -598,22 +602,13 @@ public class Client  {
 	public String calculateWinner()
 	{
 
-		String winningHand = "";
-		String secondHand = "";
-		String thirdHand = "";
 		if (model.userHands.keySet().size()==0)
 			return "No Winner";
 		else{
-			String victor;
-			String second;
-			String third;
-			int victorPoints = 0;
-			int secondPoints = 0;
-			int thirdPoints = 0;
+			
 			int userPoints = 0;
-			victor = (String) model.userHands.keySet().toArray()[0];
-			second = (String) model.userHands.keySet().toArray()[0];
-			third = (String) model.userHands.keySet().toArray()[0];
+			Map<String,String[]> pointsTable = new HashMap<String, String[]>();
+			
 			for (String user : model.userHands.keySet())
 			{
 				//14 max for ace high
@@ -686,34 +681,51 @@ public class Client  {
 					userPoints = checkHigh(model.userHands.get(user));
 				}
 				
-				
+				pointsTable.put(user, new String[] { userHand, userPoints+"" });
 				// point system takes into account high cards.
 				// a pair with ace high will beat a pair with king high.
-				if (userPoints > victorPoints){
-					victor = user;
-					victorPoints = userPoints;
-					winningHand = userHand;
-					System.out.println("First is now : "+victor);
-				}
-				else if ((userPoints > secondPoints)){
-					second = user;
-					secondPoints = userPoints;
-					secondHand = userHand;
-					System.out.println("Second is now : "+second);
-				}
-				else if ((userPoints > thirdPoints)){
-					third = user;
-					thirdPoints = userPoints;
-					thirdHand = userHand;
+				
+			}
+
+			String victor = null;
+			String second = null;
+			String third = null;
+			int victorPoints = 0;
+			int secondPoints = 0;
+			int thirdPoints = 0;
+			String winningHand = "";
+			String secondHand = "";
+			String thirdHand = "";
+
+			ArrayList<String> rank = new ArrayList<String>();
+			if (!pointsTable.isEmpty())
+			{
+				for(String user: pointsTable.keySet())
+				{
+					if (Integer.parseInt(pointsTable.get(user)[1]) > victorPoints)
+					{
+						rank.add(0,user);
+					}
+					else if (Integer.parseInt(pointsTable.get(user)[1]) > secondPoints)
+					{
+						rank.add(1,user);
+					}
+					else if (Integer.parseInt(pointsTable.get(user)[1]) > thirdPoints)
+					{
+						rank.add(0,user);
+					}
 				}
 			}
+			String outcome;
+			outcome = (rank.get(0) + " won the game with " + pointsTable.get(rank.get(0))[0]);
+			if (rank.size()>1)
+				outcome = outcome + "\n" + (rank.get(1) + " followed with " + pointsTable.get(rank.get(1))[0]);
+			if (rank.size()>2)
+				outcome = outcome + "\n" + (rank.get(2) + " came in third with " + pointsTable.get(rank.get(2))[0]);
+			
 			model.phase = 1;
-			if (model.userHands.keySet().size()==1)
-				return (victor + " with " + winningHand + " " ) ;
-			else if (model.userHands.keySet().size()==2)
-				return (victor + " with " + winningHand + " Followed by " + second + " with " + secondHand + secondPoints) ;
-			else
-				return (victor + " with " + winningHand + " Followed by " + second + " with " + secondHand + ", and " + third + " with " + thirdHand) ;
+			model.day++;
+			return outcome;
 		}
 		
 	}

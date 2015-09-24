@@ -176,8 +176,8 @@ public class ClientTest {
 		assertTrue(client.model.userHands.get("test2").equals(hand2));
 		assertTrue(client.model.userHands.get("test").equals(hand1));
 		System.out.println(client.calculateWinner());
-		assertTrue(client.calculateWinner().contains("test with Royal Flush"));
-		assertTrue(client.calculateWinner().contains("test2 with Straight Flush"));
+		assertTrue(client.calculateWinner().contains("test won the game with Royal Flush"));
+		assertTrue(client.calculateWinner().contains("test2 followed with Straight Flush"));
 		
 		
 	}
