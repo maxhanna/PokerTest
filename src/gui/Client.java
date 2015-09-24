@@ -1,5 +1,4 @@
 package gui;
-import java.awt.List;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.TreeMap;
 
 import models.ChatMessage;
 import models.PokerVariables;
@@ -59,7 +57,11 @@ public class Client  {
 			return false;
 		}
 
-		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort();
+		String msg = "Connection accepted " + socket.getInetAddress() + ":" + socket.getPort()
+				+ "\n Available commands: \n"
+				+ "serve : tell the dealer you want cards \n"
+				+ "return Ace of spades, 10 of hearts : returns the Ace of spades and 10 of hearts to the dealer\n"
+				+ "pass : do not return any cards to the dealer";
 		display(msg);
 
 		/* Creating both Data Stream */
@@ -617,47 +619,47 @@ public class Client  {
 				//23 points for a royal flush
 				if (checkRoyalFlush(model.userHands.get(user)))
 				{
-					userPoints = userPoints + 23;
+					userPoints =  23;
 					userHand = "Royal Flush";
 				}
 				//22 points for a straight flush
 				else if (checkStraightFlush(model.userHands.get(user))){
 					userHand = "Straight Flush";
-					userPoints = userPoints + 22;
+					userPoints =  22;
 				}
 				//21 points for four of a kind
 				else if (checkFourOfAKind(model.userHands.get(user))){
-					userPoints = userPoints + 21;
+					userPoints =  21;
 					userHand = "Four of a Kind";
 				}
 				//20 points for full house
 				else if (checkFullHouse(model.userHands.get(user))){
-					userPoints = userPoints + 20;
+					userPoints =  20;
 					userHand = "Full House";
 				}
 				//19 points for flush
 				else if (checkFlush(model.userHands.get(user))){
-					userPoints = userPoints + 19;
+					userPoints =  19;
 					userHand = "Flush";
 				}
 				//18 points for straight
 				else if (checkStraight(model.userHands.get(user))){
-					userPoints = userPoints + 18;
+					userPoints =  18;
 					userHand = "Straight";
 				}
 				//17 points for three of a kind
 				else if (checkThreeOfAKind(model.userHands.get(user))){
-					userPoints = userPoints + 17;
+					userPoints =  17;
 					userHand = "Three of a kind";
 				}
 				//16 points for two pair
 				else if (checkTwoPair(model.userHands.get(user))){
-					userPoints = userPoints + 16;
+					userPoints =  16;
 					userHand = "Two Pair";
 				}
 				//15 points for pair
 				else if (checkPair(model.userHands.get(user))) {
-					userPoints = userPoints + 15;
+					userPoints =  15;
 					userHand = "Pair";
 				}
 				else if (checkHigh(model.userHands.get(user)) == 14){
@@ -687,15 +689,9 @@ public class Client  {
 				
 			}
 
-			String victor = null;
-			String second = null;
-			String third = null;
 			int victorPoints = 0;
 			int secondPoints = 0;
 			int thirdPoints = 0;
-			String winningHand = "";
-			String secondHand = "";
-			String thirdHand = "";
 
 			ArrayList<String> rank = new ArrayList<String>();
 			if (!pointsTable.isEmpty())
@@ -704,14 +700,17 @@ public class Client  {
 				{
 					if (Integer.parseInt(pointsTable.get(user)[1]) > victorPoints)
 					{
+						victorPoints = Integer.parseInt(pointsTable.get(user)[1]);
 						rank.add(0,user);
 					}
 					else if (Integer.parseInt(pointsTable.get(user)[1]) > secondPoints)
 					{
+						secondPoints = Integer.parseInt(pointsTable.get(user)[1]);
 						rank.add(1,user);
 					}
 					else if (Integer.parseInt(pointsTable.get(user)[1]) > thirdPoints)
 					{
+						thirdPoints = Integer.parseInt(pointsTable.get(user)[1]);
 						rank.add(0,user);
 					}
 				}
@@ -863,7 +862,7 @@ public class Client  {
 					}
 					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
 					
-					System.out.println("Sending ordinary message to server");
+					//System.out.println("Sending ordinary message to server");
 					
 	
 				}

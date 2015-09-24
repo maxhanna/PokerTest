@@ -47,9 +47,15 @@ public class ClientTest {
 		assertTrue(msg.userName == "test");
 
 		//testing Client and Game Rules
+		
+		//create client for the user, give it test as username
 		model.userNames.add("test");
+		assert(model.userNames.contains("test"));
 		Client client = new Client("localhost", 24442, model.userNames.get(0), model);
-			
+		//check if client has a user named test in memory.
+		assert(client.model.userNames.contains("test"));
+		
+		//testing game rules
 		hand = "2 of spades,2 of clubs,2 of hearts,2 of diamonds,3 of hearts";
 		assertTrue(3 == client.checkHigh(hand));
 		hand = "4 of spades,2 of clubs,2 of hearts,2 of diamonds,3 of hearts";
@@ -164,22 +170,52 @@ public class ClientTest {
 		hand = "Ace of spades,9 of spades,Queen of spades,Jack of spades,10 of spades";
 		assertFalse(client.checkRoyalFlush(hand));
 		
-		//Client.calculateWinner();
+		//testing Client.calculateWinner();
+		//creating 3 hands
 		String hand1 = "Ace of hearts,King of hearts,Queen of hearts,Jack of hearts,10 of hearts";
 		String hand2 = "2 of spades,3 of spades,4 of spades,5 of spades,6 of spades";
+		String hand3 = "2 of spades,10 of spades,4 of spades,5 of spades,Ace of spades";
+		String hand4 = "2 of clubs,10 of hearts,3 of clubs,5 of clubs,7 of spades";
 		assertTrue(client.checkRoyalFlush(hand1));
-		client.model.userHands.put("test",hand1);
-		assertTrue(client.model.userHands.containsKey("test"));
 		assertTrue(client.checkStraightFlush(hand2));
+		assertTrue(client.checkFlush(hand3));
+		assertTrue(client.checkHigh(hand4) == 10);
+
+		client.model.userHands.put("test",hand1);
+		assert(client.model.userHands.containsKey("test"));
+		
+		//create test2 user
+		client.model.userNames.add("test2");
+		assert(client.model.userNames.contains("test2"));
+		
+		//create test2's hand
 		client.model.userHands.put("test2", hand2);
 		assertTrue(client.model.userHands.containsKey("test2"));
 		assertTrue(client.model.userHands.get("test2").equals(hand2));
 		assertTrue(client.model.userHands.get("test").equals(hand1));
-		System.out.println(client.calculateWinner());
+		
+		//testing calculateWinner() with 2 contestants
 		assertTrue(client.calculateWinner().contains("test won the game with Royal Flush"));
 		assertTrue(client.calculateWinner().contains("test2 followed with Straight Flush"));
 		
+		//testing calculateWinner() with 3 contestants
+		client.model.userHands.put("test3",hand3);
+		assertTrue(client.model.userHands.containsKey("test3"));
+		assertTrue(client.calculateWinner().contains("test3 came in third with Flush"));
+		System.out.println(client.calculateWinner());
 		
+		//create test4 user
+		client.model.userNames.add("test4");
+		client.model.userHands.put("test4", hand4);
+		assertTrue(client.model.userHands.containsKey("test4"));
+		assertTrue(client.model.userHands.get("test4").contains(hand4));
+		assertFalse(client.calculateWinner().contains("test4"));
+		
+		
+		
+		//Test game progression
+		assertTrue(model.day>0);
+		assertTrue(model.phase == 1);
 	}
 
 }
