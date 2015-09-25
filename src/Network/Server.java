@@ -229,7 +229,13 @@ public class Server {
 			int deckSize = deck.size();
 			for(String s : returned)
 			{
+				if (deck.contains(s))
+				{
+					System.out.println("User Returned Faulty Card");
+				}
+				else {
 				deck.add(s);
+				}
 			}
 			if (deck.size() > deckSize)
 				return true;
@@ -241,6 +247,10 @@ public class Server {
 	}	
 	public String takeCards(int num, ArrayList<String> deck){
 		String cards = "";
+		if (num>5)
+			num = 5;
+		if (num < 0)
+			num = 0;
 		for (int i = 0; i < num; i++)
 		{
 			if (i==num-1)
@@ -355,7 +365,7 @@ public class Server {
 					cm = (ChatMessage) sInput.readObject();
 				}
 				catch (IOException e) {
-					if (cm.getUserName() != null && !cm.getUserName().equals(""))
+					if (cm != null && cm.getUserName() != null && !cm.getUserName().equals(""))
 					{
 						display(cm.getUserName() + " Exception reading Streams: " + e);
 						broadcast(new ChatMessage(ChatMessage.LOGOUT, cm.getUserName() + ",logout", cm.getUserName()));
@@ -443,7 +453,11 @@ public class Server {
 					}
 					else if (cm.getMessage().contains("return") && cm.getMessage().contains("of"))
 					{
-						if (!usersPlayed.contains(cm.getUserName()))
+						if (inGame == 0)
+						{
+							System.out.println("No cards to return, try: serve");							
+						}
+						else if (!usersPlayed.contains(cm.getUserName()))
 						{
 							String returned = cm.getMessage().replace("return ", "");
 							System.out.println("user is returning: " + returned);
@@ -471,7 +485,11 @@ public class Server {
 					}
 					else if (cm.getMessage().contains("pass"))
 					{
-						if (!usersPlayed.contains(cm.getUserName()))
+						if (inGame == 0)
+						{
+							System.out.println("No cards to pass.");
+						}
+						else if (!usersPlayed.contains(cm.getUserName()))
 						{
 							broadcast(new ChatMessage(ChatMessage.MESSAGE, cm.getUserName() +
 									" gets nothing", cm.getUserName()));

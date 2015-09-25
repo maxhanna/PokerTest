@@ -219,6 +219,17 @@ public class ClientTest {
 		
 		System.out.println(client.calculateWinner());
 		
+		client.model.userHands.clear();
+		hand3 = "8 of clubs,8 of spades,2 of spades,3 of hearts,10 of clubs";
+		hand4 = "7 of clubs,7 of spades,2 of hearts,3 of spades,10 of clubs";
+		hand2 = "King of clubs,King of spades,2 of spades,3 of hearts,10 of clubs";
+		hand1 = "Ace of clubs,Ace of spades,2 of spades,3 of hearts,10 of clubs";
+
+		client.model.userHands.put("test1",hand1);
+		client.model.userHands.put("test2",hand2);
+		client.model.userHands.put("test3",hand3);
+		client.model.userHands.put("test4",hand4);
+		System.out.println(client.calculateWinner());
 		//Test game progression
 		assertTrue(client.model.day>1);
 		assertTrue(client.model.phase == 1);
@@ -366,6 +377,17 @@ public class ClientTest {
 		server.createDeck(deck);
 		assertTrue(deck.size()==52);
 		
+		server.takeCards(2, deck);
+		assertTrue(deck.size()==50);
+		server.shuffleDeck(deck);
+		assertTrue(deck.size()==50);
+		server.takeCards(5, deck);
+		assertTrue(deck.size()==45);
+		server.takeCards(10, deck);
+		assertTrue(deck.size()==40);
+		server.takeCards(-10, deck);
+		assertTrue(deck.size()==40);
+
 	}
 
 }

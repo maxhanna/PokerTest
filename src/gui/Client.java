@@ -212,7 +212,7 @@ public class Client  {
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
 			return true;
-		
+
 		return false;
 	}
 
@@ -295,7 +295,7 @@ public class Client  {
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
 			return true;
-		
+
 		return false;
 	}
 	public boolean checkPair(String hand)
@@ -377,77 +377,42 @@ public class Client  {
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
 			return true;
-		
+
 		return false;
 	}
 	public int checkHigh(String hand)
 	{
-		String findStr = "Ace";
-		int count = 0;
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+
+		if (hand.contains("Ace"))
 			return 14;
 
-		findStr = "King";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("King"))
 			return 13;
-		
-		findStr = "Queen";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+
+		if (hand.contains("Queen"))
 			return 12;
-		
-		findStr = "Jack";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+
+		if (hand.contains("Jack"))
 			return 11;
-		
-		findStr = "10";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("10"))
 			return 10;
-		
-		findStr = "9";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("9"))
 			return 9;
-		
-		findStr = "8";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("8"))
 			return 8;
-		
-		findStr = "7";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("7"))
 			return 7;
-		
-		findStr = "6";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("6"))
 			return 6;
-		
-		findStr = "5";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("5"))
 			return 5;
-		
-		findStr = "4";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("4"))
 			return 4;
-		
-		findStr = "3";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("3"))
 			return 3;
-		
-		findStr = "2";
-		count = hand.split(findStr, -1).length-1;
-		if (count>0)
+		if (hand.contains("2"))
 			return 2;
-		
+
 		return 0;
 	}
 	public boolean checkTwoPair(String hand)
@@ -466,17 +431,17 @@ public class Client  {
 				pair = "Queen";
 			else if (num==13)
 				pair = "King";
-				
+
 			int count = 0;
 			int index;
 			while(true) {
-			    index = s.indexOf(pair);
-			    if(index == -1) break;
-			    s = s.substring(index + pair.length());
-			    count++;
-			    if (count == 2){
-			    	numPairs++;
-			    }
+				index = s.indexOf(pair);
+				if(index == -1) break;
+				s = s.substring(index + pair.length());
+				count++;
+				if (count == 2){
+					numPairs++;
+				}
 			}
 			if (numPairs>1)
 			{
@@ -488,45 +453,45 @@ public class Client  {
 	public boolean checkStraight(String hand)
 	{
 		if (hand.contains("Ace") && hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("2"))
-		  {
-		    return true;
-		  }
+		{
+			return true;
+		}
 		if (hand.contains("2") && hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("10") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("8") && hand.contains("9"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("9"))
-		  {
-		    return true;
-		  }
-		  if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("Ace"))
-		  {
-		    return true;
-		  }
+		{
+			return true;
+		}
+		if (hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7"))
+		{
+			return true;
+		}
+		if (hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8"))
+		{
+			return true;
+		}
+		if (hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		{
+			return true;
+		}
+		if (hand.contains("10") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		{
+			return true;
+		}
+		if (hand.contains("10") && hand.contains("Jack") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
+		{
+			return true;
+		}
+		if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("8") && hand.contains("9"))
+		{
+			return true;
+		}
+		if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("9"))
+		{
+			return true;
+		}
+		if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("Ace"))
+		{
+			return true;
+		}
 		return false;
 	}
 	public boolean checkFlush(String hand)
@@ -536,14 +501,14 @@ public class Client  {
 		String card1 = cards[0];
 		String[] cardParts = card1.split(" ");
 		String suit = cardParts[2];
-	    int lastIndex = 0;
-	    int count = 0;
-	    String str = hand;
-	    String findStr = suit;
-	    while ((lastIndex = str.indexOf(findStr, lastIndex)) != -1) {
-	        count++;
-	        lastIndex += findStr.length() - 1;
-	    }
+		int lastIndex = 0;
+		int count = 0;
+		String str = hand;
+		String findStr = suit;
+		while ((lastIndex = str.indexOf(findStr, lastIndex)) != -1) {
+			count++;
+			lastIndex += findStr.length() - 1;
+		}
 		if (count>4)
 			return true;
 		return false;
@@ -551,10 +516,10 @@ public class Client  {
 	public boolean checkRoyalFlush(String hand)
 	{
 		if (hand.contains("Ace") && hand.contains("King") && hand.contains("Queen") && hand.contains("Jack") && hand.contains("10"))
-		  {
+		{
 			if (checkFlush(hand))
 				return true;
-		  }
+		}
 		return false;
 	}
 	public boolean checkFullHouse(String hand)
@@ -564,32 +529,32 @@ public class Client  {
 			for (int cardNum=1;cardNum<14;cardNum++)
 			{
 				String str = hand;
-			    String findStr = cardNum+"";
-			    if (findStr.equals("1"))
-			    	findStr = "Ace";
-			    else if (findStr.equals("11"))
-			    	findStr = "Jack";
-			    else if (findStr.equals("12"))
-			    	findStr = "Queen";
-			    else if (findStr.equals("13"))
-			    	findStr = "King";
-			    int lastIndex = 0;
-			    int count = 0;
+				String findStr = cardNum+"";
+				if (findStr.equals("1"))
+					findStr = "Ace";
+				else if (findStr.equals("11"))
+					findStr = "Jack";
+				else if (findStr.equals("12"))
+					findStr = "Queen";
+				else if (findStr.equals("13"))
+					findStr = "King";
+				int lastIndex = 0;
+				int count = 0;
 
-			    while(lastIndex != -1){
+				while(lastIndex != -1){
 
-			        lastIndex = str.indexOf(findStr,lastIndex);
+					lastIndex = str.indexOf(findStr,lastIndex);
 
-			        if(lastIndex != -1){
-			            count ++;
-			            lastIndex += findStr.length();
-			        }
-			    }
-			    //System.out.println("found " + count + " " + findStr);
-			    if (count==2)
-				   return true;
+					if(lastIndex != -1){
+						count ++;
+						lastIndex += findStr.length();
+					}
+				}
+				//System.out.println("found " + count + " " + findStr);
+				if (count==2)
+					return true;
 			}
-			
+
 		}
 		return false;
 	}
@@ -600,17 +565,17 @@ public class Client  {
 				return true;
 		return false;
 	}
-	
+
 	public String calculateWinner()
 	{
 
 		if (model.userHands.keySet().size()==0)
 			return "No Winner";
 		else{
-			
+
 			int userPoints = 0;
 			Map<String,String[]> pointsTable = new HashMap<String, String[]>();
-			
+
 			for (String user : model.userHands.keySet())
 			{
 				//14 max for ace high
@@ -682,36 +647,66 @@ public class Client  {
 					userHand = checkHigh(model.userHands.get(user))+" high";
 					userPoints = checkHigh(model.userHands.get(user));
 				}
-				
+
 				pointsTable.put(user, new String[] { userHand, userPoints+"" });
 				// point system takes into account high cards.
 				// a pair with ace high will beat a pair with king high.
-				
-			}
 
-			int victorPoints = 0;
-			int secondPoints = 0;
-			int thirdPoints = 0;
+			}
 
 			ArrayList<String> rank = new ArrayList<String>();
 			if (!pointsTable.isEmpty())
 			{
 				for(String user: pointsTable.keySet())
 				{
-					if (Integer.parseInt(pointsTable.get(user)[1]) > victorPoints)
+					if (rank.isEmpty())
+						rank.add(user);
+					else if (Integer.parseInt(pointsTable.get(user)[1]) >= Integer.parseInt(pointsTable.get(rank.get(0))[1]))
 					{
-						victorPoints = Integer.parseInt(pointsTable.get(user)[1]);
-						rank.add(0,user);
+						if (Integer.parseInt(pointsTable.get(user)[1]) > Integer.parseInt(pointsTable.get(rank.get(0))[1]))
+						{
+							rank.add(0,user);
+						}
+						else 
+						{
+							if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(0))[0]))
+								rank.add(0,user);
+							else
+								rank.add(1,user);
+						}
 					}
-					else if (Integer.parseInt(pointsTable.get(user)[1]) > secondPoints)
-					{
-						secondPoints = Integer.parseInt(pointsTable.get(user)[1]);
+					else if (rank.size()==1){
 						rank.add(1,user);
 					}
-					else if (Integer.parseInt(pointsTable.get(user)[1]) > thirdPoints)
+					else if (Integer.parseInt(pointsTable.get(user)[1]) >= Integer.parseInt(pointsTable.get(rank.get(1))[1]))
 					{
-						thirdPoints = Integer.parseInt(pointsTable.get(user)[1]);
-						rank.add(0,user);
+						if (Integer.parseInt(pointsTable.get(user)[1]) > Integer.parseInt(pointsTable.get(rank.get(1))[1]))
+						{
+							rank.add(1,user);
+						}
+						else 
+						{
+							if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(1))[0]))
+								rank.add(1,user);
+							else
+								rank.add(2,user);
+						}
+					}
+					else if (rank.size()==2){
+						rank.add(2,user);
+					}
+					else if (Integer.parseInt(pointsTable.get(user)[1]) >= Integer.parseInt(pointsTable.get(rank.get(2))[1]))
+					{
+						if (Integer.parseInt(pointsTable.get(user)[1]) > Integer.parseInt(pointsTable.get(rank.get(2))[1]))
+						{
+							rank.add(2,user);
+						}
+						else{
+							if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(2))[0]))
+								rank.add(2,user);
+							else
+								rank.add(3,user);
+						}
 					}
 				}
 			}
@@ -721,12 +716,15 @@ public class Client  {
 				outcome = outcome + "\n" + (rank.get(1) + " followed with " + pointsTable.get(rank.get(1))[0]);
 			if (rank.size()>2)
 				outcome = outcome + "\n" + (rank.get(2) + " came in third with " + pointsTable.get(rank.get(2))[0]);
-			
+			for (String s : rank)
+			{
+				System.out.println(pointsTable.get(s)[1]);
+			}
 			model.phase = 1;
 			model.day++;
 			return outcome;
 		}
-		
+
 	}
 	/*
 	 * To start the Client in console mode use one of the following command
@@ -753,10 +751,10 @@ public class Client  {
 
 		int portNumber = 28442;
 		String serverAddress = "localhost";
-		
+
 		Scanner keyboard = new Scanner(System.in);
 		System.out.println("Enter a Username");
-		
+
 
 		String userName  = keyboard.nextLine();
 		model.userNames.add(userName);
@@ -808,65 +806,84 @@ public class Client  {
 
 			System.out.print(": ");
 			msg = keyboard.nextLine( );
-			
+
 			// logout if message is LOGOUT
 			if(msg.equalsIgnoreCase("LOGOUT")) {
-					client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", model.userNames.get(0)));
-					client.disconnect();
-					break;
-				}
-				// message WhoIsIn
-				else if(msg.equalsIgnoreCase("WHOISIN")) {
-					client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", model.userNames.get(0)));				
-				}
-	
-				else {				// default to ordinary message
-	
-					if (msg.contains("serve"))
+				client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", model.userNames.get(0)));
+				client.disconnect();
+				break;
+			}
+			// message WhoIsIn
+			else if(msg.equalsIgnoreCase("WHOISIN")) {
+				client.sendMessage(new ChatMessage(ChatMessage.WHOISIN, "", model.userNames.get(0)));				
+			}
+
+			else {				// default to ordinary message
+
+				if (msg.contains("serve"))
+				{
+					if (model.phase > 2)
 					{
-						if (model.phase > 2)
-						{
-							msg = "";
-							System.out.println("You have already been served.");
-						}
-						else
-							model.phase = 2;
+						msg = "";
+						System.out.println("You have already been served.");
 					}
-					if (msg.contains("return"))
+					else
+						model.phase = 2;
+				}
+				if (msg.contains("pass"))
+				{
+					if (model.phase<2)
 					{
-						if (model.phase<2)
-						{
-							System.out.println("No cards to return!");
-							msg = "";
-						}
-						else {
-							model.phase = 3;
-							String cards = msg.replace("return ", "");
-							cards = cards.replace("ace", "Ace");
-							cards = cards.replace("jack", "Jack");
-							cards = cards.replace("queen", "Queen");
-							cards = cards.replace("king", "King");
-							cards = cards.replace(", ", ",");
-	
-							String delims2 = "[,]+";
-							String[] hand = cards.split(delims2);
-							for (String card : hand){
-								if (card.contains("return"))
-									card = card.replace("return ", "");
+						System.out.println("No cards to return! Try : serve");
+						msg = "";
+					}
+					else
+					{
+						model.phase = 3;
+					}
+				}
+				if (msg.contains("return"))
+				{
+					if (model.phase<2)
+					{
+						System.out.println("No cards to return! Try : serve");
+						msg = "";
+					}
+					else {
+						model.phase = 3;
+						String cards = msg.replace("return ", "");
+						cards = cards.replace("ace", "Ace");
+						cards = cards.replace("jack", "Jack");
+						cards = cards.replace("queen", "Queen");
+						cards = cards.replace("king", "King");
+						cards = cards.replace(", ", ",");
+
+						String delims2 = "[,]+";
+						String[] hand = cards.split(delims2);
+						for (String card : hand){
+							if (card.contains("return"))
+								card = card.replace("return ", "");
+							if (model.hand.contains(card))
+							{
 								model.hand.remove(card);
-								System.out.println("Removed "+ card + " from hand.");
 							}
-							System.out.println("Returning cards to server");
-							model.day++;
+							else
+							{
+								System.out.println("Your hand does not contain "+card+"!");
+							}
+							System.out.println("Removed "+ card + " from hand.");
 						}
+						System.out.println("Returning cards to server");
+						model.day++;
 					}
-					client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
-					
-					//System.out.println("Sending ordinary message to server");
-					
-	
 				}
-			
+				client.sendMessage(new ChatMessage(ChatMessage.MESSAGE, msg, model.userNames.get(0)));				
+
+				//System.out.println("Sending ordinary message to server");
+
+
+			}
+
 		}
 		// done disconnect
 		client.disconnect();
@@ -891,7 +908,7 @@ public class Client  {
 						//System.out.println(msg);
 
 					}
-					
+
 					String phrase = msg;
 					String delims = "[ ]+";
 					String[] tokens = phrase.split(delims);
@@ -916,8 +933,8 @@ public class Client  {
 									model.hand.add(s);
 									System.out.println(s);
 								}
-								
-								
+
+
 							}
 							if (tokens[i+1].contains("gets"))
 							{	
@@ -925,11 +942,11 @@ public class Client  {
 								if (!cards.contains("gets nothing"))
 								{
 									cards = cards.replace(model.userNames.get(0) + " gets ", "");
-	
+
 									System.out.println("youre getting cards " + cards);
 									String delims2 = "[,]+";
 									String[] received = cards.split(delims2);
-									
+
 									for(String s : received)
 									{
 										model.hand.add(s);
@@ -947,7 +964,7 @@ public class Client  {
 								}
 								System.out.println(hand);
 								sendMessage(new ChatMessage(ChatMessage.MESSAGE, "Current Hand " + hand, model.userNames.get(0)));				
-								
+
 							}
 						}
 						else if (tokens[i].contains("Calculate"))
@@ -970,10 +987,16 @@ public class Client  {
 
 						else if (tokens[i+1].contains("disconnected"))
 						{
-							model.userHands.remove(tokens[i]);
+							String dscUsr = "";
+							for (int z = 0; z<i+1; z++)
+								dscUsr = dscUsr + tokens[z];
+							model.userHands.remove(dscUsr);
+							model.userNames.remove(dscUsr);
+							model.updatedUsers.remove(dscUsr);
+							System.out.println(dscUsr + " disconnected.");
 						}
 						else {
-				//			System.out.println(msg1.getUserName() +" "+msg1.getMessage() + "\n");
+							//			System.out.println(msg1.getUserName() +" "+msg1.getMessage() + "\n");
 						}
 					}
 
