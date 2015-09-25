@@ -15,7 +15,7 @@ public class Server {
 	// a unique ID for each connection
 	private static int uniqueId;
 	// an ArrayList to keep the list of the Client
-	private ArrayList<ClientThread> al;
+	private ArrayList<ClientThread> clients;
 	int finished = 0;
 	String scores[] = new String[6];
 	ArrayList<String> users = new ArrayList<String>();
@@ -47,7 +47,7 @@ public class Server {
 		// to display hh:mm:ss
 		sdf = new SimpleDateFormat("HH:mm:ss");
 		// ArrayList for the Client list
-		al = new ArrayList<ClientThread>();
+		clients = new ArrayList<ClientThread>();
 	}
 
 	public void start() {
@@ -69,14 +69,14 @@ public class Server {
 				if(!keepGoing)
 					break;
 				ClientThread t = new ClientThread(socket);  // make a thread of it
-				al.add(t);									// save it in the ArrayList
+				clients.add(t);									// save it in the ArrayList
 				t.start();
 			}
 			// I was asked to stop
 			try {
 				serverSocket.close();
-				for(int i = 0; i < al.size(); ++i) {
-					ClientThread tc = al.get(i);
+				for(int i = 0; i < clients.size(); ++i) {
+					ClientThread tc = clients.get(i);
 					try {
 						tc.sInput.close();
 						tc.sOutput.close();
@@ -131,11 +131,11 @@ public class Server {
 
 		// we loop in reverse order in case we would have to remove a Client
 		// because it has disconnected
-		for(int i = al.size(); --i >= 0;) {
-			ClientThread ct = al.get(i);
+		for(int i = clients.size(); --i >= 0;) {
+			ClientThread ct = clients.get(i);
 			// try to write to the Client if it fails remove it from the list
 			if(!ct.writeMview(message)) {
-				al.remove(i);
+				clients.remove(i);
 				display("Disconnected Client " + ct.username + " removed from list.");
 			}
 		}
@@ -145,16 +145,129 @@ public class Server {
 	// for a client who logoff using the LOGOUT message
 	synchronized void remove(int id) {
 		// scan the array list until we found the Id
-		for(int i = 0; i < al.size(); ++i) {
-			ClientThread ct = al.get(i);
+		for(int i = 0; i < clients.size(); ++i) {
+			ClientThread ct = clients.get(i);
 			// found it
 			if(ct.id == id) {
-				al.remove(i);
+				clients.remove(i);
 				return;
 			}
 		}
 	}
+	public void createDeck(ArrayList<String> deck){
+		deck.clear();
+		for (int suit = 0; suit < 5; suit ++){
+			for (int num = 1; num < 14; num ++)
+			{
+				if (num == 1)
+				{
+					if (suit == 1)
+						deck.add("Ace" + " of clubs");
+					else if (suit == 2)
+						deck.add("Ace" + " of spades");
+					else if (suit == 3)
+						deck.add("Ace" + " of diamonds");
+					else if (suit == 4)
+						deck.add("Ace" + " of hearts");
+				}
+				else if (num == 11)
+				{
+					if (suit == 1)
+						deck.add("Jack" + " of clubs");
+					else if (suit == 2)
+						deck.add("Jack" + " of spades");
+					else if (suit == 3)
+						deck.add("Jack" + " of diamonds");
+					else if (suit == 4)
+						deck.add("Jack" + " of hearts");
+				}
+				else if (num == 12)
+				{
+					if (suit == 1)
+						deck.add("Queen" + " of clubs");
+					else if (suit == 2)
+						deck.add("Queen" + " of spades");
+					else if (suit == 3)
+						deck.add("Queen" + " of diamonds");
+					else if (suit == 4)
+						deck.add("Queen" + " of hearts");
+				}
+				else if (num == 13)
+				{
+					if (suit == 1)
+						deck.add("King" + " of clubs");
+					else if (suit == 2)
+						deck.add("King" + " of spades");
+					else if (suit == 3)
+						deck.add("King" + " of diamonds");
+					else if (suit == 4)
+						deck.add("King" + " of hearts");
+				}
+				else
+				{
+					if (suit == 1)
+						deck.add( num + " of clubs");
+					else if (suit == 2)
+						deck.add( num + " of spades");
+					else if (suit == 3)
+						deck.add( num + " of diamonds");
+					else if (suit == 4)
+						deck.add( num + " of hearts");
+				}
 
+			}
+		}
+	}
+	public void shuffleDeck(ArrayList<String> deck){
+		Collections.shuffle(deck);
+	}
+	public boolean returnCards(String cards, ArrayList<String> deck){
+		if (deck.size()<52)
+		{
+			String delims2 = "[,]+";
+			String[] returned = cards.split(delims2);
+			int deckSize = deck.size();
+			for(String s : returned)
+			{
+				deck.add(s);
+			}
+			if (deck.size() > deckSize)
+				return true;
+			else
+				return false;
+		}
+		else 
+			return false;
+	}	
+	public String takeCards(int num, ArrayList<String> deck){
+		String cards = "";
+		for (int i = 0; i < num; i++)
+		{
+			if (i==num-1)
+				cards = cards + deck.get(0);	
+			else
+				cards = cards + deck.get(0) + ",";
+			deck.remove(0);
+		}
+		return cards;
+	}
+
+	public String serveCards(ArrayList<String> deck){
+		if (deck.size() > 4)
+		{
+			String cards = ("" + deck.get(deck.size()-5) + "," + deck.get(deck.size()-1) + "," 
+					+ deck.get(deck.size()-2) + ","+ deck.get(deck.size()-3) + ","
+					+ deck.get(deck.size()-4));
+			deck.remove(deck.size()-1);
+			deck.remove(deck.size()-1);
+			deck.remove(deck.size()-1);
+			deck.remove(deck.size()-1);
+			deck.remove(deck.size()-1);
+			return cards;
+		}
+		else
+			return "";
+	}
 	/*
 	 *  To run as a console application just open a console window and: 
 	 * > java Server
@@ -229,115 +342,8 @@ public class Server {
 			}
 			date = new Date().toString() + "\n";
 		}
-		public void createDeck(ArrayList<String> deck){
-			for (int suit = 0; suit < 4; suit ++){
-				for (int num = 1; num < 13; num ++)
-				{
-					if (num == 1)
-					{
-						if (suit == 1)
-							deck.add("Ace" + " of clubs");
-						else if (suit == 2)
-							deck.add("Ace" + " of spades");
-						else if (suit == 3)
-							deck.add("Ace" + " of diamonds");
-						else if (suit == 4)
-							deck.add("Ace" + " of hearts");
-					}
-					else if (num == 11)
-					{
-						if (suit == 1)
-							deck.add("Jack" + " of clubs");
-						else if (suit == 2)
-							deck.add("Jack" + " of spades");
-						else if (suit == 3)
-							deck.add("Jack" + " of diamonds");
-						else if (suit == 4)
-							deck.add("Jack" + " of hearts");
-					}
-					else if (num == 12)
-					{
-						if (suit == 1)
-							deck.add("Queen" + " of clubs");
-						else if (suit == 2)
-							deck.add("Queen" + " of spades");
-						else if (suit == 3)
-							deck.add("Queen" + " of diamonds");
-						else if (suit == 4)
-							deck.add("Queen" + " of hearts");
-					}
-					else if (num == 13)
-					{
-						if (suit == 1)
-							deck.add("King" + " of clubs");
-						else if (suit == 2)
-							deck.add("King" + " of spades");
-						else if (suit == 3)
-							deck.add("King" + " of diamonds");
-						else if (suit == 4)
-							deck.add("King" + " of hearts");
-					}
-					else
-					{
-						if (suit == 1)
-							deck.add( num + " of clubs");
-						else if (suit == 2)
-							deck.add( num + " of spades");
-						else if (suit == 3)
-							deck.add( num + " of diamonds");
-						else if (suit == 4)
-							deck.add( num + " of hearts");
-					}
 
-				}
-			}
-		}
-		public void shuffleDeck(ArrayList<String> deck){
-			Collections.shuffle(deck);
-		}
-		public boolean returnCards(String cards, ArrayList<String> deck){
-			String delims2 = "[,]+";
-			String[] returned = cards.split(delims2);
-			int deckSize = deck.size();
-			for(String s : returned)
-			{
-				deck.add(s);
-			}
-			if (deck.size() > deckSize)
-				return true;
-			else
-				return false;
-		}	
-		public String takeCards(int num, ArrayList<String> deck){
-			String cards = "";
-			for (int i = 0; i < num; i++)
-			{
-				if (i==num-1)
-					cards = cards + deck.get(0);	
-				else
-					cards = cards + deck.get(0) + ",";
-				deck.remove(0);
-			}
-			return cards;
-		}
 
-		public String serveCards(ArrayList<String> deck){
-			if (deck.size() > 4)
-			{
-				String cards = ("" + deck.get(deck.size()-5) + "," + deck.get(deck.size()-1) + "," 
-						+ deck.get(deck.size()-2) + ","+ deck.get(deck.size()-3) + ","
-						+ deck.get(deck.size()-4));
-				deck.remove(deck.size()-1);
-				deck.remove(deck.size()-1);
-				deck.remove(deck.size()-1);
-				deck.remove(deck.size()-1);
-				deck.remove(deck.size()-1);
-				return cards;
-			}
-			else
-				return "";
-		}
-	
 
 		// what will run forever
 		public void run() {
@@ -427,10 +433,10 @@ public class Server {
 								System.out.println("Calculating winner.");
 								broadcast(new ChatMessage(ChatMessage.MESSAGE, "Calculate winner", "Server"));
 								usersPlayed = new ArrayList<String>();
-								
-								
+
+
 							}
-						
+
 
 						}
 
@@ -461,7 +467,7 @@ public class Server {
 									" cannot play, waiting for other players to play. ", cm.getUserName()));
 						}
 
-						
+
 					}
 					else if (cm.getMessage().contains("pass"))
 					{
@@ -476,7 +482,7 @@ public class Server {
 									" cannot play, waiting for other players to play. ", cm.getUserName()));
 						}
 
-						
+
 					}
 					display(cm.getMessage());
 					break;

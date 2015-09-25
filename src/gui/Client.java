@@ -812,7 +812,7 @@ public class Client  {
 			// logout if message is LOGOUT
 			if(msg.equalsIgnoreCase("LOGOUT")) {
 					client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, "" + ",disconnected\n", model.userNames.get(0)));
-					// break to do the disconnect
+					client.disconnect();
 					break;
 				}
 				// message WhoIsIn
@@ -842,10 +842,10 @@ public class Client  {
 						else {
 							model.phase = 3;
 							String cards = msg.replace("return ", "");
-							cards = msg.replace("ace", "Ace");
-							cards = msg.replace("jack", "Jack");
-							cards = msg.replace("queen", "Queen");
-							cards = msg.replace("king", "King");
+							cards = cards.replace("ace", "Ace");
+							cards = cards.replace("jack", "Jack");
+							cards = cards.replace("queen", "Queen");
+							cards = cards.replace("king", "King");
 							cards = cards.replace(", ", ",");
 	
 							String delims2 = "[,]+";
