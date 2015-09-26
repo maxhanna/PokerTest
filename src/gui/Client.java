@@ -133,170 +133,170 @@ public class Client  {
 
 
 	}
-	public boolean checkFourOfAKind(String hand)
+	public int checkFourOfAKind(String hand)
 	{
 		String findStr = "Ace";
 		int count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 633;
 
 		findStr = "King";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 632;
 
 		findStr = "Queen";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 631;
 
 		findStr = "Jack";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 630;
 
 		findStr = "10";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 629;
 
 		findStr = "9";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 628;
 
 		findStr = "8";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 627;
 
 		findStr = "7";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 626;
 
 		findStr = "6";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 625;
 
 		findStr = "5";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 624;
 
 		findStr = "4";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 623;
 
 		findStr = "3";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 622;
 
 		findStr = "2";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>3)
-			return true;
+			return 621;
 
-		return false;
+		return 0;
 	}
 
-	public boolean checkThreeOfAKind(String hand)
+	public int checkThreeOfAKind(String hand)
 	{
 		String findStr = "Ace";
 		int count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 14+417;
 
 		findStr = "King";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 13+417;
 
 		findStr = "Queen";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 12+417;
 
 		findStr = "Jack";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 11+417;
 
 		findStr = "10";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 10+417;
 
 		findStr = "9";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 9+417;
 
 		findStr = "8";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 8+417;
 
 		findStr = "7";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 7+417;
 
 		findStr = "6";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 6+417;
 
 		findStr = "5";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 5+417;
 
 		findStr = "4";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 4+417;
 
 		findStr = "3";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 3+417;
 
 		findStr = "2";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>2)
-			return true;
+			return 2+417;
 
-		return false;
+		return 0;
 	}
 	public int checkPair(String hand)
 	{
@@ -516,51 +516,51 @@ public class Client  {
 		}
 		return 0;
 	}
-	public boolean checkStraight(String hand)
+	public int checkStraight(String hand)
 	{
 		if (hand.contains("Ace") && hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("2"))
 		{
-			return true;
+			return 468;
 		}
 		if (hand.contains("2") && hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6"))
 		{
-			return true;
+			return 469;
 		}
 		if (hand.contains("3") && hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7"))
 		{
-			return true;
+			return 470;
 		}
 		if (hand.contains("4") && hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8"))
 		{
-			return true;
+			return 471;
 		}
 		if (hand.contains("5") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
 		{
-			return true;
+			return 472;
 		}
 		if (hand.contains("10") && hand.contains("6") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
 		{
-			return true;
+			return 473;
 		}
 		if (hand.contains("10") && hand.contains("Jack") && hand.contains("7") && hand.contains("8") && hand.contains("9"))
 		{
-			return true;
+			return 474;
 		}
 		if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("8") && hand.contains("9"))
 		{
-			return true;
+			return 475;
 		}
 		if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("9"))
 		{
-			return true;
+			return 476;
 		}
 		if (hand.contains("10") && hand.contains("Jack") && hand.contains("Queen") && hand.contains("King") && hand.contains("Ace"))
 		{
-			return true;
+			return 477;
 		}
-		return false;
+		return 0;
 	}
-	public boolean checkFlush(String hand)
+	public int checkFlush(String hand)
 	{
 		String string = hand;
 		String[] cards = string.split(",");
@@ -576,21 +576,21 @@ public class Client  {
 			lastIndex += findStr.length() - 1;
 		}
 		if (count>4)
-			return true;
-		return false;
+			return 519+checkHigh(hand);
+		return 0;
 	}
 	public boolean checkRoyalFlush(String hand)
 	{
 		if (hand.contains("Ace") && hand.contains("King") && hand.contains("Queen") && hand.contains("Jack") && hand.contains("10"))
 		{
-			if (checkFlush(hand))
+			if (checkFlush(hand)>0)
 				return true;
 		}
 		return false;
 	}
 	public boolean checkFullHouse(String hand)
 	{
-		if (checkThreeOfAKind(hand))
+		if (checkThreeOfAKind(hand)>0)
 		{
 			for (int cardNum=1;cardNum<14;cardNum++)
 			{
@@ -624,12 +624,12 @@ public class Client  {
 		}
 		return false;
 	}
-	public boolean checkStraightFlush(String hand)
+	public int checkStraightFlush(String hand)
 	{
-		if (checkStraight(hand))
-			if (checkFlush(hand))
-				return true;
-		return false;
+		if (checkStraight(hand)>0)
+			if (checkFlush(hand)>0)
+				return 622 + checkStraight(hand) - 467;
+		return 0;
 	}
 
 	public String calculateWinner()
@@ -640,47 +640,47 @@ public class Client  {
 		else{
 
 			int userPoints = 0;
-			Map<String,String[]> pointsTable = new HashMap<String, String[]>();
+			HashMap<String,String[]> pointsTable = new HashMap<String, String[]>();
 
 			for (String user : model.userHands.keySet())
 			{
 				//14 max for ace high
 				userPoints = checkHigh(model.userHands.get(user));
 				String userHand = "";
-				//23 points for a royal flush
+				//723 points for a royal flush
 				if (checkRoyalFlush(model.userHands.get(user)))
 				{
 					userPoints =  723;
 					userHand = "Royal Flush";
 				}
-				//22 points for a straight flush
-				else if (checkStraightFlush(model.userHands.get(user))){
+				//672 points for a straight flush
+				else if (checkStraightFlush(model.userHands.get(user))>0){
 					userHand = "Straight Flush";
-					userPoints =  672;
+					userPoints =  checkStraightFlush(model.userHands.get(user));
 				}
 				//21 points for four of a kind
-				else if (checkFourOfAKind(model.userHands.get(user))){
-					userPoints =  621;
+				else if (checkFourOfAKind(model.userHands.get(user))>0){
+					userPoints = checkFourOfAKind(model.userHands.get(user));
 					userHand = "Four of a Kind";
 				}
 				//20 points for full house
 				else if (checkFullHouse(model.userHands.get(user))){
-					userPoints =  570;
+					userPoints =  570 + checkHigh(model.userHands.get(user));
 					userHand = "Full House";
 				}
 				//19 points for flush
-				else if (checkFlush(model.userHands.get(user))){
-					userPoints =  519;
+				else if (checkFlush(model.userHands.get(user))>0){
+					userPoints =  checkFlush(model.userHands.get(user));
 					userHand = "Flush";
 				}
 				//18 points for straight
-				else if (checkStraight(model.userHands.get(user))){
-					userPoints =  468;
+				else if (checkStraight(model.userHands.get(user))>0){
+					userPoints =  checkStraight(model.userHands.get(user));
 					userHand = "Straight";
 				}
 				//17 points for three of a kind
-				else if (checkThreeOfAKind(model.userHands.get(user))){
-					userPoints =  417;
+				else if (checkThreeOfAKind(model.userHands.get(user))>0){
+					userPoints =  checkThreeOfAKind(model.userHands.get(user));
 					userHand = "Three of a Kind";
 				}
 				//16 points for two pair
@@ -713,8 +713,7 @@ public class Client  {
 					userHand = checkHigh(model.userHands.get(user))+" high";
 					userPoints = checkHigh(model.userHands.get(user));
 				}
-				if (userPoints>200)
-					userPoints = userPoints + checkHigh(model.userHands.get(user));
+				
 				pointsTable.put(user, new String[] { userHand, userPoints+"" });
 				// point system takes into account high cards.
 				// a pair with ace high will beat a pair with king high.
@@ -723,52 +722,34 @@ public class Client  {
 
 
 			ArrayList<String> rank = new ArrayList<String>();
-			if (!pointsTable.isEmpty())
+			HashMap<String,String[]> pointTable = new HashMap<String,String[]>();
+			for (String user: pointsTable.keySet())
 			{
-				for(String user: pointsTable.keySet())
+				pointTable.put(user,pointsTable.get(user));
+			}
+			//System.out.println(pointTable.size());
+			while (!pointTable.isEmpty())
+			{
+				int topUserPoints = 0;
+				for (String user: pointTable.keySet())
 				{
-					if (rank.isEmpty())
-						rank.add(user);
-					else if (Integer.parseInt(pointsTable.get(user)[1]) >= Integer.parseInt(pointsTable.get(rank.get(0))[1]))
+					if (Integer.parseInt(pointTable.get(user)[1]) > topUserPoints)
 					{
-						if (Integer.parseInt(pointsTable.get(user)[1]) > Integer.parseInt(pointsTable.get(rank.get(0))[1]))
-						{
-							rank.add(0,user);
-						}
-						else if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(0))[0]))
-							rank.add(0,user);
-						else
-							rank.add(1,user);
-					}
-					else if (rank.size()==1){
-						rank.add(1,user);
-					}
-					else if (Integer.parseInt(pointsTable.get(user)[1]) >= Integer.parseInt(pointsTable.get(rank.get(1))[1]))
-					{
-						if (Integer.parseInt(pointsTable.get(user)[1]) > Integer.parseInt(pointsTable.get(rank.get(1))[1]))
-						{
-							rank.add(1,user);
-						}
-						else if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(1))[0]))
-							rank.add(1,user);
-						else
-							rank.add(2,user);
-					}
-					else if (rank.size()==2){
-						rank.add(2,user);
-					}
-					else if (Integer.parseInt(pointsTable.get(user)[1]) >= Integer.parseInt(pointsTable.get(rank.get(2))[1]))
-					{
-						if (Integer.parseInt(pointsTable.get(user)[1]) > Integer.parseInt(pointsTable.get(rank.get(2))[1]))
-						{
-							rank.add(2,user);
-						}
-						else if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(2))[0]))
-							rank.add(2,user);
-						else
-							rank.add(3,user);
+						topUserPoints = Integer.parseInt(pointTable.get(user)[1]);
+						
 					}
 				}
+				String topUser = "";
+				for(String user : pointTable.keySet())
+				{
+					if (Integer.parseInt(pointTable.get(user)[1])==topUserPoints)
+					{
+						topUser = user;
+						rank.add(user);
+						break;
+					}
+				}
+				pointTable.remove(topUser);
 			}
 			String outcome;
 			outcome = (rank.get(0) + " won the game with " + pointsTable.get(rank.get(0))[0]);
