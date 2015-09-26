@@ -69,30 +69,40 @@ public class ClientTest {
 		assertFalse(4 == client.checkHigh(hand));
 		hand = "8 of spades,5 of clubs,2 of hearts,2 of diamonds,3 of hearts";
 		assertTrue(8 == client.checkHigh(hand));
+		hand = "9 of spades,5 of clubs,2 of hearts,6 of diamonds,3 of hearts";
+		assertTrue(9 == client.checkHigh(hand));
+		hand = "10 of spades,5 of clubs,2 of hearts,2 of diamonds,3 of hearts";
+		assertTrue(10 == client.checkHigh(hand));
 		hand = "Jack of spades,5 of clubs,2 of hearts,2 of diamonds,3 of hearts";
 		assertTrue(11 == client.checkHigh(hand));
+		hand = "8 of spades,5 of clubs,Queen of hearts,2 of diamonds,3 of hearts";
+		assertTrue(12 == client.checkHigh(hand));
+		hand = "8 of spades,5 of clubs,2 of hearts,King of diamonds,3 of hearts";
+		assertTrue(13 == client.checkHigh(hand));
+		hand = "Ace of spades,5 of clubs,2 of hearts,2 of diamonds,3 of hearts";
+		assertTrue(14 == client.checkHigh(hand));
 		hand = "2 of spades,2 of clubs,2 of hearts,2 of diamonds,Ace of hearts";
 		assertTrue(14 == client.checkHigh(hand));
 
 		hand = "Ace of spades,Ace of clubs,Ace of hearts,Ace of diamonds,10 of hearts";
-		assertTrue(client.checkPair(hand));
+		assertTrue(client.checkPair(hand)>0);
 		hand = "Ace of spades,Ace of clubs,Queen of hearts,Queen of diamonds,10 of hearts";
-		assertTrue(client.checkPair(hand));
+		assertTrue(client.checkPair(hand)>0);
 		hand = "Ace of spades,Ace of clubs,Jack of hearts,3 of diamonds,10 of hearts";
-		assertTrue(client.checkPair(hand));
+		assertTrue(client.checkPair(hand)>0);
 		hand = "Ace of spades,Jack of clubs,10 of hearts,9 of diamonds,8 of hearts";
-		assertFalse(client.checkPair(hand));
+		assertFalse(client.checkPair(hand)>0);
 		hand = "Ace of spades,9 of clubs,3 of hearts,5 of diamonds,Ace of hearts";
-		assertTrue(client.checkPair(hand));
+		assertTrue(client.checkPair(hand)>0);
 
 		hand = "Ace of spades,Ace of clubs,Ace of hearts,Ace of diamonds,10 of hearts";
-		assertFalse(client.checkTwoPair(hand));
+		assertFalse(client.checkTwoPair(hand)>0);
 		hand = "Ace of spades,Ace of clubs,10 of diamonds,Jack of diamonds,10 of hearts";
-		assertTrue(client.checkTwoPair(hand));
+		assertTrue(client.checkTwoPair(hand)>0);
 		hand = "2 of spades,10 of clubs,10 of diamonds,Jack of diamonds,2 of hearts";
-		assertTrue(client.checkTwoPair(hand));
+		assertTrue(client.checkTwoPair(hand)>0);
 		hand = "2 of spades,Ace of clubs,10 of diamonds,Jack of diamonds,2 of hearts";
-		assertFalse(client.checkTwoPair(hand));
+		assertFalse(client.checkTwoPair(hand)>0);
 
 		hand = "2 of spades,Ace of clubs,10 of diamonds,Jack of diamonds,2 of hearts";
 		assertFalse(client.checkThreeOfAKind(hand));
@@ -217,7 +227,23 @@ public class ClientTest {
 		assertFalse(client.calculateWinner().contains("test4"));
 		
 		
-		System.out.println(client.calculateWinner());
+		//System.out.println(client.calculateWinner());
+		
+		client.model.userHands.clear();
+		hand3 = "8 of clubs,8 of spades,8 of hearts,8 of diamonds,10 of clubs";
+		hand4 = "7 of clubs,7 of spades,2 of hearts,3 of spades,10 of clubs";
+		hand2 = "King of clubs,King of spades,King of diamonds,3 of hearts,10 of clubs";
+		hand1 = "Ace of clubs,Ace of spades,2 of spades,3 of hearts,10 of clubs";
+
+		client.model.userHands.put("test1",hand1);
+		client.model.userHands.put("test2",hand2);
+		client.model.userHands.put("test3",hand3);
+		client.model.userHands.put("test4",hand4);
+		//System.out.println(client.calculateWinner());
+
+		assertTrue(client.calculateWinner().contains("test3 won the game with Four of a Kind"));
+		assertTrue(client.calculateWinner().contains("test2 followed with Three of a Kind"));
+		assertTrue(client.calculateWinner().contains("test1 came in third with Pair"));
 		
 		client.model.userHands.clear();
 		hand3 = "8 of clubs,8 of spades,2 of spades,3 of hearts,10 of clubs";
@@ -225,11 +251,36 @@ public class ClientTest {
 		hand2 = "King of clubs,King of spades,2 of spades,3 of hearts,10 of clubs";
 		hand1 = "Ace of clubs,Ace of spades,2 of spades,3 of hearts,10 of clubs";
 
+		
 		client.model.userHands.put("test1",hand1);
 		client.model.userHands.put("test2",hand2);
 		client.model.userHands.put("test3",hand3);
 		client.model.userHands.put("test4",hand4);
-		System.out.println(client.calculateWinner());
+		//System.out.println(client.calculateWinner());
+		assertTrue(client.calculateWinner().contains("test1 won the game with Pair"));
+		assertTrue(client.calculateWinner().contains("test2 followed with Pair"));
+		assertTrue(client.calculateWinner().contains("test3 came in third with Pair"));
+		
+		client.model.userHands.clear();
+		hand1 = "8 of clubs,8 of spades,Ace of hearts,Ace of diamonds,10 of clubs";
+		hand2 = "7 of clubs,7 of spades,2 of hearts,2 of spades,10 of clubs";
+		hand3 = "King of clubs,King of spades,Queen of diamonds,Queen of hearts,10 of clubs";
+		hand4 = "10 of clubs,Jack of spades,Jack of spades,Ace of hearts,Ace of clubs";
+
+		assertTrue(client.checkTwoPair(hand3)>0);
+		client.model.userHands.put("test1",hand1);
+		client.model.userHands.put("test2",hand2);
+		client.model.userHands.put("test3",hand3);
+		client.model.userHands.put("test4",hand4);
+		//System.out.println(client.calculateWinner());
+
+
+		assertTrue(client.calculateWinner().contains("test4 won the game with Two Pair"));
+		assertTrue(client.calculateWinner().contains("test1 followed with Two Pair"));
+		assertTrue(client.calculateWinner().contains("test3 came in third with Two Pair"));
+		client.model.userHands.clear();
+		
+		
 		//Test game progression
 		assertTrue(client.model.day>1);
 		assertTrue(client.model.phase == 1);

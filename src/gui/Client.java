@@ -298,87 +298,87 @@ public class Client  {
 
 		return false;
 	}
-	public boolean checkPair(String hand)
+	public int checkPair(String hand)
 	{
 		String findStr = "Ace";
 		int count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 314;
 
 		findStr = "King";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 312;
 
 		findStr = "Queen";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 311;
 
 		findStr = "Jack";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 310;
 
 		findStr = "10";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 309;
 
 		findStr = "9";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 308;
 
 		findStr = "8";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 307;
 
 		findStr = "7";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 306;
 
 		findStr = "6";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 305;
 
 		findStr = "5";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 304;
 
 		findStr = "4";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 303;
 
 		findStr = "3";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 302;
 
 		findStr = "2";
 		count = 0;
 		count = hand.split(findStr, -1).length-1;
 		if (count>1)
-			return true;
+			return 301;
 
-		return false;
+		return 0;
 	}
 	public int checkHigh(String hand)
 	{
@@ -415,11 +415,13 @@ public class Client  {
 
 		return 0;
 	}
-	public boolean checkTwoPair(String hand)
+	public int checkTwoPair(String hand)
 	{
 		int num;
 		int numPairs = 0;
-		for (num = 1; num<13; num++)
+		int highPair = 0;
+		boolean setHighPair = false;
+		for (num = 1; num<14; num++)
 		{
 			String pair = num+"";
 			String s = hand;
@@ -441,14 +443,78 @@ public class Client  {
 				count++;
 				if (count == 2){
 					numPairs++;
+					if (num==1){
+						highPair = 14;
+						setHighPair = true;
+					}
+					else if (num==13 && !setHighPair)
+					{
+						highPair = 13;
+						setHighPair = true;
+					}
+					else if (num==12 && !setHighPair)
+					{
+						highPair = 12;
+						setHighPair = true;
+					}
+					else if (num==11 && !setHighPair)
+					{
+						highPair = 11;
+						setHighPair = true;
+					}
+					else if (num==10 && !setHighPair)
+					{
+						highPair = 10;
+						setHighPair = true;
+					}
+					else if (num==9 && !setHighPair)
+					{
+						highPair = 9;
+						setHighPair = true;
+					}
+					else if (num==8 && !setHighPair)
+					{
+						highPair = 8;
+						setHighPair = true;
+					}
+					else if (num==7 && !setHighPair)
+					{
+						highPair = 7;
+						setHighPair = true;
+					}
+					else if (num==6 && !setHighPair)
+					{
+						highPair = 6;
+						setHighPair = true;
+					}
+					else if (num==5 && !setHighPair)
+					{
+						highPair = 5;
+						setHighPair = true;
+					}
+					else if (num==4 && !setHighPair)
+					{
+						highPair = 4;
+						setHighPair = true;
+					}
+					else if (num==3 && !setHighPair)
+					{
+						highPair = 3;
+						setHighPair = true;
+					}
+					else if (num==2 && !setHighPair)
+					{
+						highPair = 2;
+						setHighPair = true;
+					}
 				}
 			}
 			if (numPairs>1)
 			{
-				return true;
+				return highPair+360;
 			}
 		}
-		return false;
+		return 0;
 	}
 	public boolean checkStraight(String hand)
 	{
@@ -584,47 +650,47 @@ public class Client  {
 				//23 points for a royal flush
 				if (checkRoyalFlush(model.userHands.get(user)))
 				{
-					userPoints =  23;
+					userPoints =  723;
 					userHand = "Royal Flush";
 				}
 				//22 points for a straight flush
 				else if (checkStraightFlush(model.userHands.get(user))){
 					userHand = "Straight Flush";
-					userPoints =  22;
+					userPoints =  672;
 				}
 				//21 points for four of a kind
 				else if (checkFourOfAKind(model.userHands.get(user))){
-					userPoints =  21;
+					userPoints =  621;
 					userHand = "Four of a Kind";
 				}
 				//20 points for full house
 				else if (checkFullHouse(model.userHands.get(user))){
-					userPoints =  20;
+					userPoints =  570;
 					userHand = "Full House";
 				}
 				//19 points for flush
 				else if (checkFlush(model.userHands.get(user))){
-					userPoints =  19;
+					userPoints =  519;
 					userHand = "Flush";
 				}
 				//18 points for straight
 				else if (checkStraight(model.userHands.get(user))){
-					userPoints =  18;
+					userPoints =  468;
 					userHand = "Straight";
 				}
 				//17 points for three of a kind
 				else if (checkThreeOfAKind(model.userHands.get(user))){
-					userPoints =  17;
-					userHand = "Three of a kind";
+					userPoints =  417;
+					userHand = "Three of a Kind";
 				}
 				//16 points for two pair
-				else if (checkTwoPair(model.userHands.get(user))){
-					userPoints =  16;
+				else if (checkTwoPair(model.userHands.get(user))>0){
+					userPoints =  checkTwoPair(model.userHands.get(user));
 					userHand = "Two Pair";
 				}
 				//15 points for pair
-				else if (checkPair(model.userHands.get(user))) {
-					userPoints =  15;
+				else if (checkPair(model.userHands.get(user))>0) {
+					userPoints =  checkPair(model.userHands.get(user));
 					userHand = "Pair";
 				}
 				else if (checkHigh(model.userHands.get(user)) == 14){
@@ -647,12 +713,14 @@ public class Client  {
 					userHand = checkHigh(model.userHands.get(user))+" high";
 					userPoints = checkHigh(model.userHands.get(user));
 				}
-
+				if (userPoints>200)
+					userPoints = userPoints + checkHigh(model.userHands.get(user));
 				pointsTable.put(user, new String[] { userHand, userPoints+"" });
 				// point system takes into account high cards.
 				// a pair with ace high will beat a pair with king high.
 
 			}
+
 
 			ArrayList<String> rank = new ArrayList<String>();
 			if (!pointsTable.isEmpty())
@@ -667,13 +735,10 @@ public class Client  {
 						{
 							rank.add(0,user);
 						}
-						else 
-						{
-							if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(0))[0]))
-								rank.add(0,user);
-							else
-								rank.add(1,user);
-						}
+						else if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(0))[0]))
+							rank.add(0,user);
+						else
+							rank.add(1,user);
 					}
 					else if (rank.size()==1){
 						rank.add(1,user);
@@ -684,13 +749,10 @@ public class Client  {
 						{
 							rank.add(1,user);
 						}
-						else 
-						{
-							if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(1))[0]))
-								rank.add(1,user);
-							else
-								rank.add(2,user);
-						}
+						else if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(1))[0]))
+							rank.add(1,user);
+						else
+							rank.add(2,user);
 					}
 					else if (rank.size()==2){
 						rank.add(2,user);
@@ -701,12 +763,10 @@ public class Client  {
 						{
 							rank.add(2,user);
 						}
-						else{
-							if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(2))[0]))
-								rank.add(2,user);
-							else
-								rank.add(3,user);
-						}
+						else if (checkHigh(pointsTable.get(user)[0]) > checkHigh(pointsTable.get(rank.get(2))[0]))
+							rank.add(2,user);
+						else
+							rank.add(3,user);
 					}
 				}
 			}
@@ -716,10 +776,7 @@ public class Client  {
 				outcome = outcome + "\n" + (rank.get(1) + " followed with " + pointsTable.get(rank.get(1))[0]);
 			if (rank.size()>2)
 				outcome = outcome + "\n" + (rank.get(2) + " came in third with " + pointsTable.get(rank.get(2))[0]);
-			for (String s : rank)
-			{
-				System.out.println(pointsTable.get(s)[1]);
-			}
+
 			model.phase = 1;
 			model.day++;
 			return outcome;
