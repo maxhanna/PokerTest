@@ -42,6 +42,7 @@ public class Client  {
 		this.model = model;
 		this.model.userNames.set(0, username);
 	}
+	
 
 	/*
 	 * To start the dialog
@@ -132,6 +133,26 @@ public class Client  {
 
 
 
+	}
+	public boolean checkCard(String card)
+	{
+		if (card.contains("of ") && (card.contains("spades") || card.contains("hearts") 
+				|| card.contains("diamonds") || card.contains("clubs")))
+		{
+			card = card + card.replace("of ", "");
+			card = card + card.replace("hearts", "");
+			card = card + card.replace("diamonds", "");
+			card = card + card.replace("clubs", "");
+			card = card + card.replace("spades", "");
+			if (card.equals("Ace")||card.equals("Jack")||card.equals("Queen")||
+					card.equals("King")||card.equals("10")||card.equals("9")||
+					card.equals("8")||card.equals("7")||card.equals("6")||
+					card.equals("5")||card.equals("4")||card.equals("3")||card.equals("2"))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	public int checkFourOfAKind(String hand)
 	{
@@ -901,17 +922,21 @@ public class Client  {
 						for (String card : hand){
 							if (card.contains("return"))
 								card = card.replace("return ", "");
-							if (model.hand.contains(card))
+							if (model.hand.contains(card) && client.checkCard(card))
 							{
 								model.hand.remove(card);
+								System.out.println("Removed "+ card + " from hand.");
 							}
 							else
 							{
 								System.out.println("Your hand does not contain "+card+"!");
+								msg = "";
 							}
-							System.out.println("Removed "+ card + " from hand.");
 						}
-						System.out.println("Returning cards to server");
+						if (msg.equals(""))
+							System.out.println("example cards: Ace of spades, 2 of diamonds");
+						else
+							System.out.println("Returning cards to server");
 						model.day++;
 					}
 				}
@@ -932,6 +957,7 @@ public class Client  {
 	 * a class that waits for the message from the server and append them to the JTextArea
 	 * if we have a GUI or simply use System.out.println() if in console mode
 	 */
+	
 	class ListenFromServer extends Thread {
 
 		public void run() {
