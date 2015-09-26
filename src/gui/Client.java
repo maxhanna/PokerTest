@@ -136,18 +136,20 @@ public class Client  {
 	}
 	public boolean checkCard(String card)
 	{
-		if (card.contains("of ") && (card.contains("spades") || card.contains("hearts") 
-				|| card.contains("diamonds") || card.contains("clubs")))
+		String check = card;
+		if (check.contains(" of ") && (check.contains("spades") || check.contains("hearts") 
+				|| check.contains("diamonds") || check.contains("clubs")))
 		{
-			card = card + card.replace("of ", "");
-			card = card + card.replace("hearts", "");
-			card = card + card.replace("diamonds", "");
-			card = card + card.replace("clubs", "");
-			card = card + card.replace("spades", "");
-			if (card.equals("Ace")||card.equals("Jack")||card.equals("Queen")||
-					card.equals("King")||card.equals("10")||card.equals("9")||
-					card.equals("8")||card.equals("7")||card.equals("6")||
-					card.equals("5")||card.equals("4")||card.equals("3")||card.equals("2"))
+			check = check.replace("of ", "");
+			check = check.replace("hearts", "");
+			check = check.replace("diamonds", "");
+			check = check.replace("clubs", "");
+			check = check.replace("spades", "");
+			check = check.trim();
+			if (check.equals("Ace")||check.equals("Jack")||check.equals("Queen")||
+					check.equals("King")||check.equals("10")||check.equals("9")||
+					check.equals("8")||check.equals("7")||check.equals("6")||
+					check.equals("5")||check.equals("4")||check.equals("3")||check.equals("2"))
 			{
 				return true;
 			}
